@@ -1,44 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import './App.css'
 
-/* ───────── SHARED COMPONENTS ───────── */
-
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', h)
-    return () => window.removeEventListener('scroll', h)
-  }, [])
-
-  const links = [
-    { label: 'Journey', href: '#journey' },
-    { label: 'Skills', href: '#skills' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Certifications', href: '#certs' },
-    { label: 'Contact', href: '#contact' },
-  ]
-
-  return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-dark-900/80 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-primary/5' : ''}`}>
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="font-mono font-bold text-primary text-lg tracking-tight">
-          <span className="text-accent">$</span> claudio<span className="text-text-dim">.dallara</span>
-        </a>
-        <div className="hidden md:flex items-center gap-8">
-          {links.map(l => (
-            <a key={l.href} href={l.href} className="text-text-dim hover:text-primary transition-colors text-sm font-medium tracking-wide uppercase">
-              {l.label}
-            </a>
-          ))}
-        </div>
-        <a href="#contact" className="px-5 py-2 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-semibold hover:bg-primary/20 hover:border-primary/50 transition-all">
-          Let's Talk
-        </a>
-      </div>
-    </nav>
-  )
-}
+/* ───────── HOOKS ───────── */
 
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null)
@@ -53,107 +16,99 @@ function useInView(threshold = 0.15) {
   return { ref, visible }
 }
 
-function SectionTitle({ tag, title, subtitle }: { tag: string; title: string; subtitle?: string }) {
-  const { ref, visible } = useInView()
+/* ───────── NAVBAR ───────── */
+
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', h)
+    return () => window.removeEventListener('scroll', h)
+  }, [])
+
+  const links = [
+    { label: '📖 Story', href: '#story' },
+    { label: '💥 Powers', href: '#powers' },
+    { label: '🎯 Missions', href: '#missions' },
+    { label: '📜 Training', href: '#training' },
+    { label: '✉️ Contact', href: '#contact' },
+  ]
+
   return (
-    <div ref={ref} className={`text-center mb-16 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-      <span className="font-mono text-accent text-sm tracking-widest uppercase">// {tag}</span>
-      <h2 className="text-4xl md:text-5xl font-extrabold mt-3 bg-gradient-to-r from-white via-text to-text-dim bg-clip-text text-transparent">
-        {title}
-      </h2>
-      {subtitle && <p className="text-text-dim mt-4 max-w-2xl mx-auto text-lg">{subtitle}</p>}
-    </div>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-paper/95 backdrop-blur-md border-b-3 border-ink shadow-lg' : ''}`}>
+      <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+        <a href="#" className="impact-text text-accent-red text-xl">CD</a>
+        <div className="hidden md:flex items-center gap-5">
+          {links.map(l => (
+            <a key={l.href} href={l.href} className="font-bold text-text-mid hover:text-accent-red transition-colors text-sm">
+              {l.label}
+            </a>
+          ))}
+        </div>
+        <a href="#contact" className="px-5 py-2 bg-accent-red text-white font-bold text-sm rounded-sm border-2 border-ink hover:bg-ink transition-all shadow-[3px_3px_0px_var(--color-ink)]">
+          HIRE ME!
+        </a>
+      </div>
+    </nav>
   )
 }
 
 /* ───────── HERO ───────── */
 
-function TypingText({ texts }: { texts: string[] }) {
+function Hero() {
+  const roles = ['DevOps & Observability', 'Full Stack Developer', 'Web3 Builder', 'Eternal Learner']
   const [idx, setIdx] = useState(0)
-  const [displayed, setDisplayed] = useState('')
-  const [deleting, setDeleting] = useState(false)
+  const [show, setShow] = useState(true)
 
   useEffect(() => {
-    const target = texts[idx]
-    const speed = deleting ? 30 : 60
-
-    if (!deleting && displayed === target) {
-      const t = setTimeout(() => setDeleting(true), 2000)
-      return () => clearTimeout(t)
-    }
-    if (deleting && displayed === '') {
-      setDeleting(false)
-      setIdx((idx + 1) % texts.length)
-      return
-    }
-
-    const t = setTimeout(() => {
-      setDisplayed(deleting ? target.slice(0, displayed.length - 1) : target.slice(0, displayed.length + 1))
-    }, speed)
-    return () => clearTimeout(t)
-  }, [displayed, deleting, idx, texts])
+    const interval = setInterval(() => {
+      setShow(false)
+      setTimeout(() => { setIdx(i => (i + 1) % roles.length); setShow(true) }, 300)
+    }, 2500)
+    return () => clearInterval(interval)
+  }, [roles.length])
 
   return (
-    <span className="font-mono text-accent">
-      {displayed}<span className="animate-pulse">▍</span>
-    </span>
-  )
-}
+    <section className="min-h-screen flex items-center justify-center speed-lines halftone relative">
+      {/* SFX decorations */}
+      <span className="sfx text-8xl top-20 left-8 text-accent-red">WHOOSH!</span>
+      <span className="sfx text-6xl bottom-32 right-12 rotate-12 text-accent-blue">POW!</span>
+      <span className="sfx text-7xl top-1/3 right-8 text-accent-yellow">BOOM!</span>
 
-function Hero() {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background grid */}
-      <div className="absolute inset-0 opacity-[0.03]" style={{
-        backgroundImage: 'linear-gradient(rgba(0,212,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.3) 1px, transparent 1px)',
-        backgroundSize: '60px 60px'
-      }} />
-      {/* Glowing orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px] animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
-
-      <div className="relative z-10 text-center px-6 max-w-4xl pb-32">
-        {/* Terminal badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-dark-700/80 border border-white/5 mb-8">
-          <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-          <span className="font-mono text-xs text-text-dim">currently working @ <span className="text-primary">Agile Lab</span></span>
+      <div className="relative z-10 text-center px-6 max-w-4xl">
+        <div className="speech-bubble inline-block mb-8">
+          <span className="font-mono text-xs text-accent-red font-bold">📖 CHAPTER 1 — THE ORIGIN</span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-black leading-tight tracking-tight">
-          <span className="bg-gradient-to-r from-primary via-white to-accent bg-clip-text text-transparent">
-            Claudio Dall'Ara
-          </span>
+        <h1 className="impact-text text-6xl md:text-9xl leading-none text-ink">
+          CLAUDIO<br/>DALL'ARA
         </h1>
 
-        <div className="mt-6 text-xl md:text-2xl text-text-dim font-light">
-          <TypingText texts={[
-            'DevOps & Observability Engineer',
-            'Full Stack Developer',
-            'Web3 Builder',
-            'Continuous Learner',
-          ]} />
+        <div className="mt-8 h-10">
+          <p className={`impact-text text-2xl text-accent-blue transition-all duration-300 ${show ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+            ★ {roles[idx]} ★
+          </p>
         </div>
 
-        <p className="mt-8 text-lg text-text-dim max-w-2xl mx-auto leading-relaxed">
-          From <span className="text-white font-semibold">22 years of retail leadership</span> to building
-          cloud-native systems. Driven by an{' '}
-          <span className="text-accent font-semibold">obsession for learning</span> and a passion for{' '}
-          <span className="text-primary font-semibold">solving complex problems</span>.
-        </p>
+        <div className="thought-bubble inline-block mt-8 max-w-xl">
+          <p className="text-text-mid text-lg leading-relaxed">
+            After <strong className="text-accent-red">22 years</strong> in retail, I made the leap to tech.
+            Now I build <strong className="text-accent-blue">cloud-native systems</strong> by day
+            and <strong className="text-accent-purple">decentralized apps</strong> by night.
+          </p>
+        </div>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="#projects" className="group px-8 py-3.5 bg-gradient-to-r from-primary to-accent rounded-full text-dark-900 font-bold text-sm tracking-wide hover:shadow-lg hover:shadow-primary/25 transition-all hover:scale-105">
-            View My Work →
+          <a href="#story" className="px-8 py-3 bg-accent-red text-white font-bold text-sm border-2 border-ink shadow-[4px_4px_0px_var(--color-ink)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_var(--color-ink)] transition-all">
+            READ MY STORY →
           </a>
-          <a href="#journey" className="px-8 py-3.5 border border-white/10 rounded-full text-text font-medium text-sm hover:border-primary/40 hover:text-primary transition-all">
-            My Journey
+          <a href="#missions" className="px-8 py-3 bg-speech border-2 border-ink text-ink font-bold text-sm shadow-[4px_4px_0px_var(--color-ink)] hover:bg-accent-yellow/20 transition-all">
+            VIEW MISSIONS
           </a>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-          <span className="text-text-dim text-xs font-mono">scroll</span>
-          <div className="w-px h-8 bg-gradient-to-b from-primary/50 to-transparent" />
+        <div className="mt-16 animate-bounce text-text-light text-sm font-bold">
+          ↓ SCROLL ↓
         </div>
       </div>
     </section>
@@ -162,411 +117,273 @@ function Hero() {
 
 /* ───────── METRICS ───────── */
 
-function AnimatedCounter({ target, label, suffix = '' }: { target: number; label: string; suffix?: string }) {
+function MetricPanel({ value, label, color }: { value: string; label: string; color: string }) {
   const { ref, visible } = useInView()
-  const [count, setCount] = useState(0)
-
-  useEffect(() => {
-    if (!visible) return
-    let start = 0
-    const step = Math.max(1, Math.ceil(target / 40))
-    const timer = setInterval(() => {
-      start += step
-      if (start >= target) { setCount(target); clearInterval(timer) }
-      else setCount(start)
-    }, 30)
-    return () => clearInterval(timer)
-  }, [visible, target])
-
   return (
-    <div ref={ref} className="text-center p-6">
-      <div className="text-4xl md:text-5xl font-black text-primary font-mono">
-        {visible ? count : 0}{suffix}
-      </div>
-      <div className="mt-2 text-text-dim text-sm font-medium uppercase tracking-wider">{label}</div>
+    <div ref={ref} className={`manga-panel p-5 text-center transition-all duration-500 ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+      <div className={`impact-text text-4xl ${color}`}>{value}</div>
+      <div className="text-text-mid text-xs font-bold mt-2 uppercase tracking-wider">{label}</div>
     </div>
   )
 }
 
 function Metrics() {
   return (
-    <section className="py-16 border-y border-white/5">
-      <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <AnimatedCounter target={20} suffix="+" label="Certifications" />
-        <AnimatedCounter target={3} label="Blockchain Ecosystems" />
-        <AnimatedCounter target={13} suffix="+" label="Projects Built" />
-        <AnimatedCounter target={22} label="Years of Leadership" />
+    <section className="py-12 bg-paper-alt halftone">
+      <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <MetricPanel value="20+" label="Certifications" color="text-accent-yellow" />
+        <MetricPanel value="3" label="Blockchain Ecosystems" color="text-accent-purple" />
+        <MetricPanel value="13+" label="Projects" color="text-accent-blue" />
+        <MetricPanel value="22" label="Years Leadership" color="text-accent-green" />
       </div>
     </section>
   )
 }
 
-/* ───────── JOURNEY TIMELINE ───────── */
+/* ───────── STORY (journey) ───────── */
 
-const journeySteps = [
-  { year: '1996', title: 'IT Technical Diploma', desc: 'ITIS Blaise Pascal, Cesena — Turbo Pascal, Assembly, Prolog. The first spark.', icon: '🎓', side: 'left' as const },
-  { year: '1999–2021', title: '22 Years of Retail Leadership', desc: 'Store Manager @ Marco Polo Expert / Unieuro. Managing teams, budgets, and customer experience at scale.', icon: '🏪', side: 'right' as const },
-  { year: '2021', title: 'The Career Change', desc: 'A life-changing decision: leaving 22 years of retail to return to my first passion — computer science.', icon: '🔄', side: 'left' as const, highlight: true },
-  { year: '2022–2024', title: 'Full Stack Mastery', desc: 'Master in Full Stack Development (MERN) @ Start2Impact. React, TypeScript, Node.js, MongoDB. Building real projects.', icon: '💻', side: 'right' as const },
-  { year: '2024', title: 'Web3 & Blockchain Deep Dive', desc: 'Solana Bootcamp, ICP Protocol, EPICODE-Binance Scholarship. Smart contracts, DeFi, tokenization.', icon: '⛓️', side: 'left' as const },
-  { year: '2025', title: 'DevOps & Observability', desc: 'Docker, Kubernetes, OpenShift, Prometheus, OpenTelemetry, Grafana, Linux, CI/CD. Building the ops muscle.', icon: '🔧', side: 'right' as const, highlight: true },
-  { year: '2025–Now', title: 'Agiler @ Agile Lab', desc: 'Junior Application Maintenance — working with Kafka, monitoring, observability, and cloud-native infrastructure.', icon: '🚀', side: 'left' as const, highlight: true },
-  { year: '2026', title: 'IOTA Hackathon — GiftBlitz', desc: 'Building a decentralized gift card marketplace. 63 European teams. Featured on the official IOTA blog.', icon: '🏆', side: 'right' as const },
+const chapters = [
+  { year: '1996', title: 'THE FIRST PAGE', desc: 'IT Technical Diploma at ITIS Blaise Pascal. Turbo Pascal, Assembly, Prolog.', color: 'accent-blue', icon: '📘' },
+  { year: '1999–2021', title: '22 YEAR ARC', desc: 'Retail Store Manager. A long saga of leadership, resilience, and growth.', color: 'accent-green', icon: '🏪' },
+  { year: '2021', title: '★ THE PLOT TWIST ★', desc: 'Left 22 years of retail to become a developer. The biggest cliffhanger of all.', color: 'accent-red', icon: '💥', highlight: true },
+  { year: '2022–2024', title: 'TRAINING ARC', desc: 'Full Stack Master at Start2Impact. React, TypeScript, Node.js, MongoDB.', color: 'accent-blue', icon: '📚' },
+  { year: '2024', title: 'HIDDEN CHAPTER', desc: 'Solana Bootcamp, ICP Protocol, EPICODE-Binance Scholarship. Web3 world discovered.', color: 'accent-purple', icon: '🔮' },
+  { year: '2025', title: '★ POWER UP ★', desc: 'Docker, Kubernetes, OpenShift, Prometheus, OpenTelemetry, Grafana.', color: 'accent-red', icon: '⚡', highlight: true },
+  { year: 'NOW', title: '★ CURRENT ARC ★', desc: 'Junior Application Maintenance @ Agile Lab. Kafka, monitoring, cloud-native.', color: 'accent-red', icon: '🚀', highlight: true },
+  { year: '2026', title: 'BOSS BATTLE', desc: 'IOTA Hackathon — GiftBlitz. 63 European teams. Featured on IOTA Foundation blog.', color: 'accent-yellow', icon: '🏆' },
 ]
 
-function Journey() {
+function ChapterCard({ chapter, index }: { chapter: typeof chapters[0]; index: number }) {
+  const { ref, visible } = useInView(0.2)
   return (
-    <section id="journey" className="py-24 relative">
-      <SectionTitle tag="My Journey" title="From Retail to Code" subtitle="22 years of leadership taught me resilience, problem-solving, and how to learn anything fast." />
+    <div ref={ref}
+      className={`flex items-start gap-4 mb-6 transition-all duration-500 ${visible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-6'}`}
+      style={{ transitionDelay: `${index * 80}ms` }}>
+      <div className="shrink-0 text-2xl mt-1">{chapter.icon}</div>
+      <div className={`manga-panel p-4 flex-1 ${chapter.highlight ? `border-${chapter.color}` : ''}`}>
+        <div className="flex items-center gap-3 mb-1">
+          <span className="font-mono text-xs px-2 py-0.5 bg-paper-alt text-text-light border border-ink/20">{chapter.year}</span>
+          {chapter.highlight && <span className="text-accent-red text-xs font-bold animate-pulse">★ KEY ARC</span>}
+        </div>
+        <h3 className={`impact-text text-base text-${chapter.color}`}>{chapter.title}</h3>
+        <p className="text-text-mid mt-1 text-sm">{chapter.desc}</p>
+      </div>
+    </div>
+  )
+}
 
-      <div className="max-w-4xl mx-auto px-6 relative">
-        {/* Center line */}
-        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent hidden md:block" />
-
-        {journeySteps.map((step, i) => {
-          const { ref, visible } = useInView(0.2)
-          return (
-            <div key={i} ref={ref}
-              className={`relative mb-12 md:mb-16 flex flex-col md:flex-row items-center gap-4 md:gap-8
-                transition-all duration-700 delay-${i * 100}
-                ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
-                ${step.side === 'right' ? 'md:flex-row-reverse' : ''}`}>
-
-              {/* Content card */}
-              <div className={`flex-1 glass-card p-6 ${step.highlight ? 'border-primary/20 shadow-lg shadow-primary/5' : ''}`}>
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-2xl">{step.icon}</span>
-                  <span className="font-mono text-primary text-sm font-bold">{step.year}</span>
-                </div>
-                <h3 className={`text-lg font-bold ${step.highlight ? 'text-primary' : 'text-white'}`}>{step.title}</h3>
-                <p className="text-text-dim mt-2 text-sm leading-relaxed">{step.desc}</p>
-              </div>
-
-              {/* Center dot */}
-              <div className={`hidden md:flex w-4 h-4 rounded-full border-2 shrink-0 ${step.highlight ? 'border-primary bg-primary/30 shadow-lg shadow-primary/50' : 'border-dark-600 bg-dark-800'}`} />
-
-              {/* Spacer for opposite side */}
-              <div className="flex-1 hidden md:block" />
-            </div>
-          )
-        })}
+function Story() {
+  const { ref, visible } = useInView()
+  return (
+    <section id="story" className="py-20">
+      <div className="max-w-3xl mx-auto px-6">
+        <div ref={ref} className={`text-center mb-14 transition-all duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+          <span className="font-mono text-xs bg-accent-blue/10 text-accent-blue px-3 py-1 border border-accent-blue/30">📖 STORYLINE</span>
+          <h2 className="impact-text text-4xl md:text-6xl text-ink mt-6">
+            THE JOURNEY<br/>SO FAR
+          </h2>
+        </div>
+        {chapters.map((c, i) => <ChapterCard key={i} chapter={c} index={i} />)}
       </div>
     </section>
   )
 }
 
-/* ───────── SKILLS ───────── */
+/* ───────── POWERS (skills) ───────── */
 
-const skillCategories = [
-  {
-    title: 'DevOps & Cloud',
-    icon: '⚙️',
-    color: 'primary',
-    skills: ['Docker', 'Kubernetes', 'OpenShift', 'Jenkins', 'CI/CD', 'Linux', 'GCP', 'AWS', 'Azure'],
-    highlight: true,
-  },
-  {
-    title: 'Observability',
-    icon: '📊',
-    color: 'accent',
-    skills: ['Prometheus', 'Grafana', 'OpenTelemetry', 'Jaeger', 'Kafka'],
-    highlight: true,
-  },
-  {
-    title: 'Web3 / Blockchain',
-    icon: '⛓️',
-    color: 'purple',
-    skills: ['Solidity', 'Hardhat', 'Foundry', 'Ethers.js', 'IOTA', 'Solana', 'ICP', 'OpenZeppelin'],
-  },
-  {
-    title: 'Frontend',
-    icon: '🎨',
-    color: 'primary',
-    skills: ['React', 'TypeScript', 'Next.js', 'TailwindCSS', 'HTML5', 'CSS3'],
-  },
-  {
-    title: 'Backend',
-    icon: '🖥️',
-    color: 'accent',
-    skills: ['Node.js', 'Express', 'PHP', 'Laravel', 'MongoDB', 'PostgreSQL', 'SQL', 'Prisma', 'Postman'],
-  },
-  {
-    title: 'AI & Data',
-    icon: '🤖',
-    color: 'purple',
-    skills: ['Python', 'AI Avanzata', 'Data Analysis'],
-  },
+const powerGroups = [
+  { name: 'DevOps & Cloud', level: 'MAIN POWER', color: 'accent-red', power: 85, skills: ['Docker', 'Kubernetes', 'OpenShift', 'Jenkins', 'CI/CD', 'Linux', 'GCP', 'AWS', 'Azure'], highlight: true },
+  { name: 'Observability', level: 'SPECIAL', color: 'accent-yellow', power: 80, skills: ['Prometheus', 'Grafana', 'OpenTelemetry', 'Jaeger', 'Kafka'], highlight: true },
+  { name: 'Web3 / Blockchain', level: 'HIDDEN', color: 'accent-purple', power: 75, skills: ['Solidity', 'Hardhat', 'Foundry', 'Ethers.js', 'IOTA', 'Solana', 'ICP', 'OpenZeppelin'] },
+  { name: 'Frontend', level: 'CORE', color: 'accent-blue', power: 90, skills: ['React', 'TypeScript', 'Next.js', 'TailwindCSS', 'HTML5', 'CSS3'] },
+  { name: 'Backend', level: 'CORE', color: 'accent-green', power: 85, skills: ['Node.js', 'Express', 'PHP', 'Laravel', 'MongoDB', 'PostgreSQL', 'SQL', 'Prisma', 'Postman'] },
+  { name: 'AI & Data', level: 'EMERGING', color: 'accent-blue', power: 50, skills: ['Python', 'AI Avanzata', 'Data Analysis'] },
 ]
 
-function Skills() {
+function PowerCard({ pg, index }: { pg: typeof powerGroups[0]; index: number }) {
+  const { ref, visible } = useInView()
   return (
-    <section id="skills" className="py-24 bg-dark-800/30">
-      <SectionTitle tag="Tech Stack" title="Skills & Expertise" subtitle="Focused on DevOps, Observability, and Cloud — while building across the full stack." />
+    <div ref={ref} className={`manga-panel p-4 transition-all duration-500 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+      style={{ transitionDelay: `${index * 100}ms` }}>
+      <div className="flex items-center justify-between mb-2">
+        <div>
+          <span className={`text-[10px] font-mono font-bold px-2 py-0.5 bg-${pg.color}/10 text-${pg.color} border border-${pg.color}/30`}>{pg.level}</span>
+          <h3 className={`impact-text text-sm text-${pg.color} mt-1`}>{pg.name}</h3>
+        </div>
+        <span className={`impact-text text-xl text-${pg.color}`}>{pg.power}%</span>
+      </div>
+      <div className="h-2 bg-paper-alt border border-ink/20 rounded-full mb-3">
+        <div className={`h-full bg-${pg.color} rounded-full transition-all duration-1000`} style={{ width: visible ? `${pg.power}%` : '0%' }} />
+      </div>
+      <div className="flex flex-wrap gap-1">
+        {pg.skills.map(s => <span key={s} className="px-2 py-0.5 text-[11px] font-bold bg-paper-alt text-text-mid border border-ink/10 hover:border-accent-red/40 hover:text-accent-red transition-colors cursor-default">{s}</span>)}
+      </div>
+    </div>
+  )
+}
 
-      <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {skillCategories.map((cat, i) => {
-          const { ref, visible } = useInView()
-          const colorMap: Record<string, string> = {
-            primary: 'text-primary border-primary/20 shadow-primary/10',
-            accent: 'text-accent border-accent/20 shadow-accent/10',
-            purple: 'text-purple border-purple/20 shadow-purple/10',
-          }
-          const tagColorMap: Record<string, string> = {
-            primary: 'bg-primary/10 text-primary border-primary/20',
-            accent: 'bg-accent/10 text-accent border-accent/20',
-            purple: 'bg-purple/10 text-purple border-purple/20',
-          }
-          return (
-            <div key={i} ref={ref}
-              className={`glass-card p-6 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
-                ${cat.highlight ? `border-${cat.color}/20 shadow-lg ${colorMap[cat.color]}` : ''}`}
-              style={{ transitionDelay: `${i * 100}ms` }}>
-
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-2xl">{cat.icon}</span>
-                <h3 className={`font-bold text-lg ${cat.highlight ? colorMap[cat.color]?.split(' ')[0] : 'text-white'}`}>
-                  {cat.title}
-                </h3>
-                {cat.highlight && (
-                  <span className="ml-auto text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border bg-primary/10 text-primary border-primary/30 animate-pulse">
-                    FOCUS
-                  </span>
-                )}
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {cat.skills.map(s => (
-                  <span key={s} className={`px-3 py-1 rounded-full text-xs font-medium border ${tagColorMap[cat.color]}`}>
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )
-        })}
+function Powers() {
+  const { ref, visible } = useInView()
+  return (
+    <section id="powers" className="py-20 bg-paper-alt halftone">
+      <div className="max-w-6xl mx-auto px-6">
+        <div ref={ref} className={`text-center mb-14 transition-all duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+          <span className="font-mono text-xs bg-accent-red/10 text-accent-red px-3 py-1 border border-accent-red/30">💥 ABILITIES</span>
+          <h2 className="impact-text text-4xl md:text-6xl text-ink mt-6">POWER<br/>STATS</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {powerGroups.map((pg, i) => <PowerCard key={i} pg={pg} index={i} />)}
+        </div>
       </div>
     </section>
   )
 }
 
-/* ───────── PROJECTS ───────── */
+/* ───────── MISSIONS (projects) ───────── */
 
-const projects = [
-  {
-    title: 'GiftBlitz',
-    badge: 'IOTA Hackathon 2026',
-    desc: 'Decentralized trustless gift card marketplace built on IOTA. 63 European teams competing. Featured on the official IOTA Foundation blog.',
-    tech: ['IOTA', 'Smart Contracts', 'Web3', 'Digital Identity', 'Tokenization'],
-    live: 'https://gift-blitz-full.vercel.app/',
-    blog: 'https://blog.iota.org/build-now-masterz-hackathon/',
-    featured: true,
-  },
-  {
-    title: 'LinkedShield',
-    badge: 'Personal Project',
-    desc: 'Anti-scam app protecting LinkedIn users from fraudsters. OAuth2 integration, real-time threat detection.',
-    tech: ['Node.js', 'Express', 'TypeScript', 'MongoDB', 'Tailwind v4'],
-    live: 'https://www.linkedshield.eu/',
-    github: 'https://github.com/boobaGreen/linkedinScammers',
-    featured: true,
-  },
-  {
-    title: 'Smart 360',
-    badge: 'Client Work',
-    desc: 'Full website for a moving company. Design, implementation, cookies compliance, deployment, and domain management.',
-    tech: ['React', 'Full Stack', 'SEO'],
-    live: 'https://www.grouptraslochismart360.it/',
-    github: 'https://github.com/boobaGreen/smart360',
-  },
-  {
-    title: 'StudyBuddyHub',
-    badge: 'Master Final Project',
-    desc: 'Full-featured SPA with RESTful APIs, authentication system, user management. Final project for Full Stack Master.',
-    tech: ['MongoDB', 'Express', 'React', 'Node.js'],
-    live: 'https://studybuddyhub.netlify.app/cover',
-    github: 'https://github.com/boobaGreen/S2I-STUDY_BUDDY_HUB_4COACH',
-  },
-  {
-    title: 'Randomizer (ICP)',
-    badge: 'Blockchain',
-    desc: 'Application deployed on Internet Computer Protocol blockchain using Azle (TypeScript) and DFINITY CLI.',
-    tech: ['ICP', 'Azle', 'TypeScript', 'Blockchain'],
-    live: 'https://kwjpy-liaaa-aaaap-ahaea-cai.raw.icp0.io/',
-    github: 'https://github.com/boobaGreen/randomizer',
-  },
+const missions = [
+  { title: 'GIFTBLITZ', codename: 'IOTA HACKATHON 2026', status: '🔴 ACTIVE', desc: 'Decentralized gift card marketplace on IOTA. 63 teams. IOTA Foundation blog.', tech: ['IOTA', 'Smart Contracts', 'Web3', 'Digital Identity'], live: 'https://gift-blitz-full.vercel.app/', blog: 'https://blog.iota.org/build-now-masterz-hackathon/', featured: true, color: 'accent-red' },
+  { title: 'LINKEDSHIELD', codename: 'PROTECT OP', status: '🟢 DONE', desc: 'Anti-scam app protecting LinkedIn users. OAuth2, real-time detection.', tech: ['Node.js', 'TypeScript', 'MongoDB', 'Tailwind v4'], live: 'https://www.linkedshield.eu/', github: 'https://github.com/boobaGreen/linkedinScammers', featured: true, color: 'accent-blue' },
+  { title: 'SMART 360', codename: 'CLIENT SITE', status: '🟢 DONE', desc: 'Full website for a moving company.', tech: ['React', 'Full Stack', 'SEO'], live: 'https://www.grouptraslochismart360.it/', github: 'https://github.com/boobaGreen/smart360', color: 'accent-green' },
+  { title: 'STUDYBUDDYHUB', codename: 'FINAL EXAM', status: '🟢 DONE', desc: 'Full SPA with RESTful APIs and auth system.', tech: ['MongoDB', 'Express', 'React', 'Node.js'], live: 'https://studybuddyhub.netlify.app/cover', github: 'https://github.com/boobaGreen/S2I-STUDY_BUDDY_HUB_4COACH', color: 'accent-yellow' },
+  { title: 'RANDOMIZER', codename: 'ICP DEPLOY', status: '🟢 DONE', desc: 'Deployed on ICP blockchain using Azle.', tech: ['ICP', 'Azle', 'TypeScript', 'Blockchain'], live: 'https://kwjpy-liaaa-aaaap-ahaea-cai.raw.icp0.io/', github: 'https://github.com/boobaGreen/randomizer', color: 'accent-purple' },
 ]
 
-function Projects() {
+function MissionCard({ mission, index }: { mission: typeof missions[0]; index: number }) {
+  const { ref, visible } = useInView()
   return (
-    <section id="projects" className="py-24">
-      <SectionTitle tag="Portfolio" title="Featured Projects" subtitle="Building real-world applications across Web2, Web3, and enterprise systems." />
+    <div ref={ref} className={`manga-panel p-5 transition-all duration-500 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'} ${mission.featured ? 'md:col-span-2 border-accent-red' : ''}`}
+      style={{ transitionDelay: `${index * 100}ms` }}>
+      <div className="flex items-center gap-3 mb-2">
+        <span className="font-mono text-[10px] bg-paper-alt px-2 py-0.5 text-text-light border border-ink/20">{mission.codename}</span>
+        <span className="text-xs font-bold">{mission.status}</span>
+        {mission.featured && <span className="text-accent-red text-xs font-bold">⭐ FEATURED</span>}
+      </div>
+      <h3 className={`impact-text text-lg text-${mission.color}`}>{mission.title}</h3>
+      <p className="text-text-mid mt-1 text-sm">{mission.desc}</p>
+      <div className="flex flex-wrap gap-1 mt-3">
+        {mission.tech.map(t => <span key={t} className="px-2 py-0.5 text-[11px] font-bold bg-paper-alt text-text-mid border border-ink/10">{t}</span>)}
+      </div>
+      <div className="flex gap-3 mt-4">
+        {mission.live && <a href={mission.live} target="_blank" rel="noopener noreferrer" className="px-4 py-1.5 bg-accent-red text-white font-bold text-xs border-2 border-ink shadow-[3px_3px_0px_var(--color-ink)] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all">LIVE ↗</a>}
+        {mission.github && <a href={mission.github} target="_blank" rel="noopener noreferrer" className="px-4 py-1.5 border-2 border-ink text-text-mid font-bold text-xs shadow-[3px_3px_0px_var(--color-ink)] hover:bg-accent-yellow/20 transition-all">GITHUB ↗</a>}
+        {mission.blog && <a href={mission.blog} target="_blank" rel="noopener noreferrer" className="px-4 py-1.5 border-2 border-accent-yellow text-accent-yellow font-bold text-xs hover:bg-accent-yellow/10 transition-all">IOTA BLOG ↗</a>}
+      </div>
+    </div>
+  )
+}
 
-      <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {projects.map((p, i) => {
-          const { ref, visible } = useInView()
-          return (
-            <div key={i} ref={ref}
-              className={`glass-card p-6 flex flex-col transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
-                ${p.featured ? 'md:col-span-2 border-primary/15 md:flex-row md:gap-8' : ''}`}
-              style={{ transitionDelay: `${i * 100}ms` }}>
-
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-3">
-                  {p.featured && <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/30">⭐ FEATURED</span>}
-                  <span className="text-xs font-mono text-text-dim">{p.badge}</span>
-                </div>
-                <h3 className="text-xl font-bold text-white">{p.title}</h3>
-                <p className="text-text-dim mt-2 text-sm leading-relaxed">{p.desc}</p>
-
-                <div className="flex flex-wrap gap-2 mt-4">
-                  {p.tech.map(t => (
-                    <span key={t} className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-dark-700 text-text-dim border border-white/5">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="flex gap-3 mt-5">
-                  {p.live && (
-                    <a href={p.live} target="_blank" rel="noopener noreferrer"
-                      className="px-4 py-2 bg-primary/10 border border-primary/30 rounded-lg text-primary text-xs font-semibold hover:bg-primary/20 transition-all">
-                      Live Demo ↗
-                    </a>
-                  )}
-                  {p.github && (
-                    <a href={p.github} target="_blank" rel="noopener noreferrer"
-                      className="px-4 py-2 border border-white/10 rounded-lg text-text-dim text-xs font-semibold hover:border-white/30 hover:text-white transition-all">
-                      GitHub ↗
-                    </a>
-                  )}
-                  {p.blog && (
-                    <a href={p.blog} target="_blank" rel="noopener noreferrer"
-                      className="px-4 py-2 border border-accent/20 rounded-lg text-accent text-xs font-semibold hover:bg-accent/10 transition-all">
-                      IOTA Blog ↗
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-          )
-        })}
+function Missions() {
+  const { ref, visible } = useInView()
+  return (
+    <section id="missions" className="py-20">
+      <div className="max-w-6xl mx-auto px-6">
+        <div ref={ref} className={`text-center mb-14 transition-all duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+          <span className="font-mono text-xs bg-accent-blue/10 text-accent-blue px-3 py-1 border border-accent-blue/30">🎯 MISSIONS</span>
+          <h2 className="impact-text text-4xl md:text-6xl text-ink mt-6">COMPLETED<br/>MISSIONS</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {missions.map((m, i) => <MissionCard key={i} mission={m} index={i} />)}
+        </div>
       </div>
     </section>
   )
 }
 
-/* ───────── CERTIFICATIONS ───────── */
+/* ───────── TRAINING (certs) ───────── */
 
-const certGroups = [
-  {
-    area: 'DevOps & Cloud',
-    color: 'primary',
-    certs: [
-      { name: 'Docker Per Comuni Mortali', issuer: 'Udemy', date: 'Jan 2026' },
-      { name: 'OpenShift for the Absolute Beginners', issuer: 'Udemy', date: 'Dec 2025' },
-      { name: 'Prometheus Monitoring & Alerting', issuer: 'Udemy', date: 'Sep 2025' },
-      { name: 'OpenTelemetry Foundations', issuer: 'Udemy', date: 'Sep 2025' },
-      { name: 'Linux LPI Essentials', issuer: 'Udemy', date: 'Apr 2025' },
-      { name: 'Google Cloud Fundamentals', issuer: 'Coursera / Google', date: 'Jan 2025' },
-    ]
-  },
-  {
-    area: 'Web3 / Blockchain',
-    color: 'purple',
-    certs: [
-      { name: 'MasterZ × IOTA Hackathon', issuer: 'MasterZ / IOTA', date: '2026 (ongoing)' },
-      { name: 'EPICODE-Binance Web3 Scholarship', issuer: 'EPICODE / Binance', date: 'Mar 2025' },
-      { name: 'MasterZ × Solana Bootcamp', issuer: 'MasterZ / Solana Foundation', date: '2024' },
-      { name: 'ICP Protocol — Azle', issuer: 'ICP Hub Italia', date: 'Mar 2024' },
-      { name: 'Master Blockchain Development', issuer: 'Start2Impact', date: '2024–Present' },
-    ]
-  },
-  {
-    area: 'Full Stack & AI',
-    color: 'accent',
-    certs: [
-      { name: 'AI Avanzata', issuer: 'Profession AI', date: 'Sep 2025' },
-      { name: 'Python Programming', issuer: 'Profession AI', date: 'Sep 2025' },
-      { name: 'Master Full Stack Development', issuer: 'Start2Impact', date: 'Nov 2022 – Feb 2024' },
-    ]
-  },
+const trainingArcs = [
+  { area: 'DevOps & Cloud', icon: '⚙️', color: 'accent-red', certs: [
+    { name: 'Docker Per Comuni Mortali', from: 'Udemy', date: 'Jan 2026' },
+    { name: 'OpenShift for Beginners', from: 'Udemy', date: 'Dec 2025' },
+    { name: 'Prometheus Monitoring', from: 'Udemy', date: 'Sep 2025' },
+    { name: 'OpenTelemetry Foundations', from: 'Udemy', date: 'Sep 2025' },
+    { name: 'Linux LPI Essentials', from: 'Udemy', date: 'Apr 2025' },
+    { name: 'Google Cloud Fundamentals', from: 'Coursera', date: 'Jan 2025' },
+  ]},
+  { area: 'Web3 / Blockchain', icon: '⛓️', color: 'accent-purple', certs: [
+    { name: 'IOTA Hackathon', from: 'MasterZ / IOTA', date: '2026' },
+    { name: 'Binance Scholarship', from: 'EPICODE', date: 'Mar 2025' },
+    { name: 'Solana Bootcamp', from: 'MasterZ', date: '2024' },
+    { name: 'ICP — Azle', from: 'ICP Hub', date: 'Mar 2024' },
+    { name: 'Blockchain Dev', from: 'Start2Impact', date: '2024+' },
+  ]},
+  { area: 'Full Stack & AI', icon: '🤖', color: 'accent-blue', certs: [
+    { name: 'AI Avanzata', from: 'Profession AI', date: 'Sep 2025' },
+    { name: 'Python Programming', from: 'Profession AI', date: 'Sep 2025' },
+    { name: 'Full Stack Dev Master', from: 'Start2Impact', date: '2022-2024' },
+  ]},
 ]
 
-function Certifications() {
+function TrainingBlock({ arc, index }: { arc: typeof trainingArcs[0]; index: number }) {
+  const { ref, visible } = useInView()
   return (
-    <section id="certs" className="py-24 bg-dark-800/30">
-      <SectionTitle tag="Continuous Learning" title="20+ Certifications & Counting"
-        subtitle="Proof that curiosity never stops. Always learning, always growing." />
+    <div ref={ref} className={`manga-panel p-5 transition-all duration-500 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+      style={{ transitionDelay: `${index * 150}ms` }}>
+      <div className="flex items-center gap-3 mb-4">
+        <span className="text-xl">{arc.icon}</span>
+        <h3 className={`impact-text text-sm text-${arc.color}`}>{arc.area}</h3>
+        <span className="ml-auto font-mono text-xs text-text-light">{arc.certs.length} COMPLETED</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {arc.certs.map((c, i) => (
+          <div key={i} className="px-3 py-2 bg-paper-alt border border-ink/10 hover:border-accent-red/30 transition-colors">
+            <div className="text-sm font-bold text-text-dark">{c.name}</div>
+            <div className="text-xs text-text-light">{c.from} · {c.date}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
-      <div className="max-w-6xl mx-auto px-6 space-y-8">
-        {certGroups.map((group, gi) => {
-          const { ref, visible } = useInView()
-          const colors: Record<string, { border: string; text: string; bg: string }> = {
-            primary: { border: 'border-primary/20', text: 'text-primary', bg: 'bg-primary/5' },
-            accent: { border: 'border-accent/20', text: 'text-accent', bg: 'bg-accent/5' },
-            purple: { border: 'border-purple/20', text: 'text-purple', bg: 'bg-purple/5' },
-          }
-          const c = colors[group.color]
-
-          return (
-            <div key={gi} ref={ref}
-              className={`glass-card p-6 transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-              style={{ transitionDelay: `${gi * 150}ms` }}>
-              <h3 className={`font-bold text-lg ${c.text} mb-4 flex items-center gap-2`}>
-                <span className={`w-2 h-2 rounded-full ${c.bg} ${c.border} border`} style={{ backgroundColor: group.color === 'primary' ? '#00d4ff' : group.color === 'accent' ? '#00ff88' : '#7c3aed' }} />
-                {group.area}
-                <span className="ml-auto text-xs font-mono text-text-dim">{group.certs.length} certs</span>
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {group.certs.map((cert, ci) => (
-                  <div key={ci} className={`px-4 py-3 rounded-xl ${c.bg} border ${c.border} hover:scale-[1.02] transition-transform`}>
-                    <div className="text-sm font-semibold text-white">{cert.name}</div>
-                    <div className="text-xs text-text-dim mt-1">{cert.issuer} · {cert.date}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )
-        })}
+function Training() {
+  const { ref, visible } = useInView()
+  return (
+    <section id="training" className="py-20 bg-paper-alt halftone">
+      <div className="max-w-6xl mx-auto px-6">
+        <div ref={ref} className={`text-center mb-14 transition-all duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+          <span className="font-mono text-xs bg-accent-green/10 text-accent-green px-3 py-1 border border-accent-green/30">📜 TRAINING</span>
+          <h2 className="impact-text text-4xl md:text-6xl text-ink mt-6">20+ ARCS<br/>COMPLETED</h2>
+        </div>
+        <div className="space-y-5">
+          {trainingArcs.map((arc, i) => <TrainingBlock key={i} arc={arc} index={i} />)}
+        </div>
       </div>
     </section>
   )
 }
 
-/* ───────── CONTACT CTA ───────── */
+/* ───────── CONTACT ───────── */
 
 function Contact() {
   const { ref, visible } = useInView()
   return (
-    <section id="contact" className="py-24 relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px]" />
-      </div>
-
-      <div ref={ref} className={`relative z-10 max-w-3xl mx-auto px-6 text-center transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-        <span className="font-mono text-accent text-sm tracking-widest uppercase">// Let's Connect</span>
-        <h2 className="text-4xl md:text-5xl font-extrabold mt-4 bg-gradient-to-r from-primary via-white to-accent bg-clip-text text-transparent">
-          Let's Build Something Together
-        </h2>
-        <p className="text-text-dim mt-6 text-lg">
-          Looking for a curious, proactive developer who brings both technical skills and 22 years of real-world problem solving?
-          Let's talk.
-        </p>
-
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="https://www.linkedin.com/in/claudio-dall-ara-730aa0302/"
-            target="_blank" rel="noopener noreferrer"
-            className="group px-8 py-3.5 bg-gradient-to-r from-primary to-accent rounded-full text-dark-900 font-bold text-sm tracking-wide hover:shadow-lg hover:shadow-primary/25 transition-all hover:scale-105 flex items-center gap-2">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-            Connect on LinkedIn
-          </a>
-          <a href="https://github.com/boobaGreen"
-            target="_blank" rel="noopener noreferrer"
-            className="px-8 py-3.5 border border-white/10 rounded-full text-text font-medium text-sm hover:border-primary/40 hover:text-primary transition-all flex items-center gap-2">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-            View GitHub
-          </a>
+    <section id="contact" className="py-20 speed-lines">
+      <div ref={ref} className={`max-w-3xl mx-auto px-6 text-center transition-all duration-500 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+        <div className="manga-panel p-8 md:p-12 relative">
+          <span className="sfx text-6xl top-4 right-4 text-accent-yellow">ZAP!</span>
+          <span className="font-mono text-xs bg-accent-red/10 text-accent-red px-3 py-1 border border-accent-red/30 mb-4 inline-block">✉️ CONTACT</span>
+          <h2 className="impact-text text-4xl md:text-5xl text-ink">LET'S TEAM UP!</h2>
+          <div className="speech-bubble inline-block mt-6 max-w-lg">
+            <p className="text-text-mid text-lg">
+              Looking for a developer with <strong className="text-accent-red">determination</strong>,
+              <strong className="text-accent-yellow"> 22 years of XP</strong>, and
+              <strong className="text-accent-blue"> multi-stack powers</strong>? Let's talk!
+            </p>
+          </div>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="https://www.linkedin.com/in/claudio-dall-ara-730aa0302/" target="_blank" rel="noopener noreferrer"
+              className="px-8 py-3 bg-accent-blue text-white font-bold text-sm border-2 border-ink shadow-[4px_4px_0px_var(--color-ink)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all flex items-center gap-2">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LINKEDIN
+            </a>
+            <a href="https://github.com/boobaGreen" target="_blank" rel="noopener noreferrer"
+              className="px-8 py-3 bg-speech border-2 border-ink text-ink font-bold text-sm shadow-[4px_4px_0px_var(--color-ink)] hover:bg-paper-alt transition-all flex items-center gap-2">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+              GITHUB
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -577,15 +394,9 @@ function Contact() {
 
 function Footer() {
   return (
-    <footer className="py-8 border-t border-white/5 text-center">
-      <div className="max-w-6xl mx-auto px-6">
-        <p className="font-mono text-text-dim text-xs">
-          <span className="text-accent">$</span> designed & built by <span className="text-primary">Claudio Dall'Ara</span> · 2026
-        </p>
-        <p className="text-text-dim/50 text-[10px] mt-2 font-mono">
-          React + TypeScript + Tailwind v4 · Deployed on Vercel
-        </p>
-      </div>
+    <footer className="py-4 border-t-3 border-ink text-center bg-paper-alt">
+      <p className="impact-text text-sm text-text-light">DESIGNED & BUILT BY CLAUDIO DALL'ARA · 2026</p>
+      <p className="font-mono text-[10px] text-text-light/40 mt-1">React + TypeScript + Tailwind v4 · Manga Comic Edition</p>
     </footer>
   )
 }
@@ -598,10 +409,10 @@ function App() {
       <Navbar />
       <Hero />
       <Metrics />
-      <Journey />
-      <Skills />
-      <Projects />
-      <Certifications />
+      <Story />
+      <Powers />
+      <Missions />
+      <Training />
       <Contact />
       <Footer />
     </div>
