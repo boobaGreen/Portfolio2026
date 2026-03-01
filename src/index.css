@@ -1,184 +1,156 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #00d4ff;
-  --color-primary-dim: #00d4ff33;
-  --color-accent: #00ff88;
-  --color-accent-dim: #00ff8833;
-  --color-purple: #7c3aed;
-  --color-purple-dim: #7c3aed33;
-  --color-dark-900: #0a0a0f;
-  --color-dark-800: #111118;
-  --color-dark-700: #1a1a24;
-  --color-dark-600: #24243a;
-  --color-text: #e2e8f0;
-  --color-text-dim: #94a3b8;
-  --font-sans: "Inter", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  /* Adventure Map — Fantasy treasure map palette */
+  --color-ocean: #0c2d48;
+  --color-ocean-deep: #061a2e;
+  --color-ocean-light: #144272;
+  --color-land: #2c5f2d;
+  --color-land-light: #4a8b3f;
+  --color-sand: #e8d5a3;
+  --color-sand-dark: #c4a66a;
+  --color-parchment: #f5e6c4;
+  --color-parchment-dark: #d4c19e;
+  --color-mountain: #6b5b4e;
+  --color-gold: #ffd700;
+  --color-ruby: #e74c3c;
+  --color-emerald: #2ecc71;
+  --color-sapphire: #3498db;
+  --color-amethyst: #9b59b6;
+  --color-bronze: #cd7f32;
+  --color-ink-brown: #3e2723;
+  --color-text-map: #2c1810;
+  --color-text-light: #f5e6c4;
+  --font-map: 'Cinzel Decorative', serif;
+  --font-heading: 'Cinzel', serif;
+  --font-body: 'Lora', serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 @layer base {
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
   body {
-    background-color: var(--color-dark-900);
-    color: var(--color-text);
-    font-family: var(--font-sans);
-    line-height: 1.6;
+    background: linear-gradient(180deg,
+      var(--color-ocean-deep) 0%,
+      var(--color-ocean) 15%,
+      var(--color-ocean-light) 30%,
+      var(--color-ocean) 50%,
+      var(--color-ocean-deep) 100%
+    );
+    color: var(--color-text-light);
+    font-family: var(--font-body);
+    line-height: 1.7;
     overflow-x: hidden;
   }
 
   ::selection {
-    background-color: var(--color-primary);
-    color: var(--color-dark-900);
+    background-color: var(--color-gold);
+    color: var(--color-ink-brown);
   }
 }
 
-/* Animated gradient border */
-@keyframes gradient-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+/* ── Ocean waves animation ── */
+@keyframes wave {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(-5px) translateY(3px); }
+  50% { transform: translateX(0) translateY(-2px); }
+  75% { transform: translateX(5px) translateY(3px); }
 }
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+@keyframes wave-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
-@keyframes pulse-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 5px var(--color-primary-dim);
-  }
-  50% {
-    box-shadow:
-      0 0 20px var(--color-primary-dim),
-      0 0 40px var(--color-primary-dim);
-  }
+/* ── Island floating animation ── */
+@keyframes float-island {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(0.3deg); }
 }
 
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
+/* ── Compass spin ── */
+@keyframes compass-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-@keyframes blink-caret {
-  from,
-  to {
-    border-color: transparent;
-  }
-  50% {
-    border-color: var(--color-accent);
-  }
+/* ── Treasure glow ── */
+@keyframes treasure-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), 0 0 50px rgba(255, 215, 0, 0.2); }
 }
 
-@keyframes count-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scan-line {
-  0% {
-    top: -100%;
-  }
-  100% {
-    top: 100%;
-  }
-}
-
-/* Glassmorphism card */
-.glass-card {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.03),
-    rgba(255, 255, 255, 0.01)
-  );
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
+/* ── Parchment card ── */
+.parchment-card {
+  background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-parchment-dark) 100%);
+  border: 2px solid var(--color-sand-dark);
+  border-radius: 4px;
+  color: var(--color-text-map);
+  position: relative;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
 }
 
-.glass-card:hover {
-  border-color: var(--color-primary-dim);
-  box-shadow:
-    0 0 30px var(--color-primary-dim),
-    inset 0 0 30px rgba(0, 212, 255, 0.03);
-  transform: translateY(-4px);
+.parchment-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: 4px;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+.parchment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.4);
 }
-::-webkit-scrollbar-track {
-  background: var(--color-dark-900);
+
+/* ── Island card ── */
+.island-card {
+  background: linear-gradient(180deg, var(--color-land-light) 0%, var(--color-land) 60%, var(--color-sand-dark) 100%);
+  border: 3px solid var(--color-sand-dark);
+  border-radius: 50% 50% 45% 55% / 60% 55% 45% 40%;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  color: var(--color-text-light);
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 -4px 12px rgba(0, 0, 0, 0.2);
+  animation: float-island 6s ease-in-out infinite;
+  transition: all 0.3s ease;
 }
+
+.island-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), inset 0 -4px 12px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 215, 0, 0.15);
+}
+
+/* ── Ocean dotted path ── */
+.dotted-path {
+  border-top: 3px dashed var(--color-sand-dark);
+  opacity: 0.4;
+}
+
+/* ── Water ring around islands ── */
+.water-ring {
+  position: relative;
+}
+
+.water-ring::after {
+  content: '';
+  position: absolute;
+  top: -8px; left: -8px; right: -8px; bottom: -8px;
+  border-radius: inherit;
+  border: 2px solid rgba(52, 152, 219, 0.2);
+  animation: wave 4s ease-in-out infinite;
+}
+
+/* ── Scrollbar (map-themed) ── */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-ocean-deep); }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-dark-600);
-  border-radius: 3px;
+  background: linear-gradient(180deg, var(--color-sand-dark), var(--color-bronze));
+  border-radius: 4px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary);
-}
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold); }
