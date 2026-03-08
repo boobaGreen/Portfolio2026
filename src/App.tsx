@@ -518,7 +518,7 @@ const projects: Project[] = [
     tech: ["C", "WebAssembly", "React", "TypeScript"],
     live: "https://c-course-salvatore-sanfilippo.vercel.app/",
     github: "https://github.com/boobaGreen/C-course---Salvatore-Sanfilippo",
-    image: "/src/assets/c_course.png",
+    image: "/assets/c_course.png",
     featured: true,
   },
   {
@@ -528,7 +528,7 @@ const projects: Project[] = [
     tech: ['React', 'TypeScript', 'LPI', 'RHCSA', 'Vite'],
     live: 'https://multicourse-gamma.vercel.app/',
     github: 'https://github.com/boobaGreen/lpi_essential/tree/multi-course',
-    image: '/src/assets/linuxquest.png',
+    image: "/assets/linuxquest.png",
     featured: true,
   },
   {
@@ -539,7 +539,7 @@ const projects: Project[] = [
     live: 'https://gift-blitz-full.vercel.app/',
     github: 'https://github.com/boobaGreen/GiftBlitzFull',
     blog: 'https://blog.iota.org/build-now-masterz-hackathon/',
-    image: '/src/assets/giftblitz.png',
+    image: "/assets/giftblitz.png",
     featured: true,
   },
 ];
