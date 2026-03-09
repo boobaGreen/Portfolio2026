@@ -162,7 +162,7 @@ function Hero() {
         style={{ animationDelay: "1s" }}
       />
 
-      <div className="relative z-10 text-center px-6 max-w-4xl pb-32">
+      <div className="relative z-10 text-center px-6 max-w-4xl pt-24 md:pt-32 pb-32">
         {/* Terminal badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-dark-700/80 border border-white/5 mb-8">
           <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
