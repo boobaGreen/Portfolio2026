@@ -167,7 +167,7 @@ function Hero() {
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-dark-700/80 border border-white/5 mb-8">
           <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
           <span className="font-mono text-xs text-text-dim">
-            currently working @ <span className="text-primary">Agile Lab</span>
+            currently working @ <a href="https://www.agilelab.it/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline transition-all">Agile Lab</a>
           </span>
         </div>
 
