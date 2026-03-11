@@ -822,22 +822,22 @@ const certGroups = [
       {
         name: "Architecting with Google Kubernetes Engine (GKE)",
         issuer: "Coursera / Google",
-        date: "2025",
+        date: "2022",
       },
       {
         name: "Elastic Google Cloud Infrastructure: Scaling & Automation",
         issuer: "Coursera / Google",
-        date: "2025",
+        date: "2022",
       },
       {
         name: "Essential Google Cloud Infrastructure: Core Services",
         issuer: "Coursera / Google",
-        date: "2025",
+        date: "2022",
       },
       {
         name: "Google Cloud Fundamentals",
         issuer: "Coursera / Google",
-        date: "Jan 2025",
+        date: "2022",
       },
     ],
   },
