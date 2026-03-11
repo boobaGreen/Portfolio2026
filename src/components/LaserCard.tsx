@@ -55,9 +55,14 @@ export function LaserCard({
   `;
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, rotateX: -45, scale: 0.9, y: 50 }}
+      whileInView={{ opacity: 1, rotateX: 0, scale: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       className={`group relative rounded-2xl bg-dark-800/80 border border-white/5 backdrop-blur-md overflow-hidden transition-all duration-300 ${className}`}
       onMouseMove={handleMouseMove}
+      style={{ perspective: 1000 }}
     >
       {/* 
         This is the inner gradient mask that follows the cursor.
@@ -92,6 +97,6 @@ export function LaserCard({
       <div className="relative h-full w-full z-10 bg-dark-800/30 rounded-2xl">
         {children}
       </div>
-    </div>
+    </motion.div>
   );
 }

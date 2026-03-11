@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Background3D } from "./components/Background3D";
 import { LaserCard } from "./components/LaserCard";
+import { motion, useScroll, useTransform } from "framer-motion";
 import "./App.css";
 
 /* ───────── SHARED COMPONENTS ───────── */
@@ -152,6 +153,46 @@ function useInView(threshold = 0.15) {
   return { ref, visible };
 }
 
+function ScrambleText({ text, visible }: { text: string; visible: boolean }) {
+  const [displayText, setDisplayText] = useState(visible ? text : "");
+  
+  useEffect(() => {
+    if (!visible) return;
+
+    const chars = "!<>-_\\\\/[]{}—=+*^?#_";
+    let iteration = 0;
+    let frameId: number;
+    
+    const animate = () => {
+      setDisplayText(
+        text
+          .split("")
+          .map((char, index) => {
+            if (index < iteration) {
+              return char;
+            }
+            return chars[Math.floor(Math.random() * chars.length)];
+          })
+          .join("")
+      );
+
+      // Increase the speed of deciphering by adding more than 1 to iteration per frame
+      iteration += 1 / 3;
+
+      if (iteration < text.length) {
+        frameId = requestAnimationFrame(animate);
+      } else {
+        setDisplayText(text);
+      }
+    };
+
+    frameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frameId);
+  }, [text, visible]);
+
+  return <span>{displayText}</span>;
+}
+
 function SectionTitle({
   tag,
   title,
@@ -171,7 +212,7 @@ function SectionTitle({
         // {tag}
       </span>
       <h2 className="text-4xl md:text-5xl font-extrabold mt-3 bg-gradient-to-r from-white via-text to-text-dim bg-clip-text text-transparent">
-        {title}
+        <ScrambleText text={title} visible={visible} />
       </h2>
       {subtitle && (
         <p className="text-text-dim mt-4 max-w-2xl mx-auto text-lg">
@@ -442,8 +483,16 @@ function JourneyItem({ step, i }: { step: typeof journeySteps[0], i: number }) {
 }
 
 function Journey() {
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"],
+  });
+
+  const pathHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  
   return (
-    <section id="journey" className="py-24 relative">
+    <section id="journey" className="py-24 relative" ref={containerRef}>
       <SectionTitle
         tag="My Evolution"
         title="Engineering Transformation"
@@ -451,7 +500,15 @@ function Journey() {
       />
 
       <div className="max-w-4xl mx-auto px-6 relative">
-        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-primary/30 to-transparent hidden md:block" />
+        {/* Background dark track */}
+        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/5 hidden md:block" />
+        
+        {/* Glowing Data Flow line */}
+        <motion.div 
+          className="absolute left-[calc(50%-1px)] top-0 w-[2px] bg-gradient-to-b from-primary via-accent to-primary hidden md:block origin-top shadow-[0_0_15px_rgba(0,255,136,0.6)]"
+          style={{ height: pathHeight }}
+        />
+        
         {journeySteps.map((step, i) => (
           <JourneyItem key={i} step={step} i={i} />
         ))}
