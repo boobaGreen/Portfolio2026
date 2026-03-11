@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from "react";
+import { Background3D } from "./components/Background3D";
+import { LaserCard } from "./components/LaserCard";
 import "./App.css";
 
 /* ───────── SHARED COMPONENTS ───────── */
@@ -284,7 +286,7 @@ function Hero() {
         <p className="mt-8 text-lg text-text-dim max-w-2xl mx-auto leading-relaxed">
           Building <span className="text-primary font-semibold">high-performance Observability systems</span> at scale. 
           Focused on <span className="text-accent font-semibold">Kafka, OpenTelemetry, and Cloud-Native infrastructure</span>. 
-          By night, I build <span className="text-purple font-semibold">Web3 protocols and educational platforms</span> for the next generation of engineers.
+          Alongside this, I build <span className="text-purple font-semibold">Web3 protocols and educational platforms</span> for the next generation of engineers.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -423,13 +425,15 @@ function JourneyItem({ step, i }: { step: typeof journeySteps[0], i: number }) {
         ${step.side === "right" ? "md:flex-row-reverse" : ""}`}
       style={{ transitionDelay: `${i * 150}ms` }}
     >
-      <div className={`flex-1 glass-card p-6 ${step.highlight ? "border-primary/20 shadow-lg shadow-primary/5" : ""}`}>
-        <div className="flex items-center gap-3 mb-2">
-          <span className="text-2xl">{step.icon}</span>
-          <span className="font-mono text-primary text-sm font-bold">{step.year}</span>
-        </div>
-        <h3 className={`text-lg font-bold ${step.highlight ? "text-primary" : "text-white"}`}>{step.title}</h3>
-        <p className="text-text-dim mt-2 text-sm leading-relaxed">{step.desc}</p>
+      <div className="flex-1">
+        <LaserCard colorType="primary" className={`p-6 ${step.highlight ? "border-primary/20 shadow-lg shadow-primary/5" : ""}`}>
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-2xl">{step.icon}</span>
+            <span className="font-mono text-primary text-sm font-bold">{step.year}</span>
+          </div>
+          <h3 className={`text-lg font-bold ${step.highlight ? "text-primary" : "text-white"}`}>{step.title}</h3>
+          <p className="text-text-dim mt-2 text-sm leading-relaxed">{step.desc}</p>
+        </LaserCard>
       </div>
       <div className={`hidden md:flex w-4 h-4 rounded-full border-2 shrink-0 ${step.highlight ? "border-primary bg-primary/30 shadow-lg shadow-primary/50" : "border-dark-600 bg-dark-800"}`} />
       <div className="flex-1 hidden md:block" />
@@ -543,28 +547,32 @@ function SkillCard({ cat, i }: { cat: typeof skillCategories[0], i: number }) {
   return (
     <div
       ref={ref}
-      className={`glass-card ${cat.color === 'accent' ? 'glass-card-accent' : cat.color === 'purple' ? 'glass-card-purple' : ''} p-6 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
-        ${cat.highlight ? `border-primary/20 shadow-lg ${colorMap[cat.color]}` : ""}`}
+      className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
       style={{ transitionDelay: `${i * 100}ms` }}
     >
-      <div className="flex items-center gap-3 mb-4">
-        <span className="text-2xl">{cat.icon}</span>
-        <h3 className={`font-bold text-lg ${cat.highlight ? colorMap[cat.color]?.split(" ")[0] : "text-white"}`}>
-          {cat.title}
-        </h3>
-        {cat.highlight && (
-          <span className="ml-auto text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border bg-primary/10 text-primary border-primary/30">
-            FOCUS
-          </span>
-        )}
-      </div>
-      <div className="flex flex-wrap gap-2">
-        {cat.skills.map((s) => (
-          <span key={s} className={`px-3 py-1 rounded-full text-xs font-medium border ${tagColorMap[cat.color]}`}>
-            {s}
-          </span>
-        ))}
-      </div>
+      <LaserCard 
+        colorType={cat.color as "primary" | "accent" | "purple"}
+        className={`p-6 h-full ${cat.highlight ? `border-primary/20 shadow-lg ${colorMap[cat.color]}` : ""}`}
+      >
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-2xl">{cat.icon}</span>
+          <h3 className={`font-bold text-lg ${cat.highlight ? colorMap[cat.color]?.split(" ")[0] : "text-white"}`}>
+            {cat.title}
+          </h3>
+          {cat.highlight && (
+            <span className="ml-auto text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border bg-primary/10 text-primary border-primary/30">
+              FOCUS
+            </span>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {cat.skills.map((s) => (
+            <span key={s} className={`px-3 py-1 rounded-full text-xs font-medium border ${tagColorMap[cat.color]}`}>
+              {s}
+            </span>
+          ))}
+        </div>
+      </LaserCard>
     </div>
   );
 }
@@ -683,49 +691,60 @@ function ProjectCard({ p, i }: { p: Project, i: number }) {
   return (
     <div
       ref={ref}
-      className={`glass-card overflow-hidden flex flex-col transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
+      className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
         ${p.featured ? "md:col-span-2" : ""}`}
       style={{ transitionDelay: `${i * 100}ms` }}
     >
-      <div className={`flex flex-col ${p.featured ? "md:flex-row" : ""}`}>
-        <div className={`${p.featured ? "md:w-1/2" : "w-full"} h-64 overflow-hidden relative group`}>
-          <img src={p.image} alt={p.title} className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100" />
-          <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-60" />
+      <LaserCard colorType="primary" className="h-full flex flex-col">
+        <div className={`flex flex-col h-full ${p.featured ? "md:flex-row" : ""}`}>
+          <div className={`${p.featured ? "md:w-1/2" : "w-full"} h-64 overflow-hidden relative group shrink-0`}>
+            {p.live || p.github ? (
+              <a href={p.live || p.github} target="_blank" rel="noopener noreferrer" className="block w-full h-full cursor-pointer">
+                <img src={p.image} alt={p.title} className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100" />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-60 pointer-events-none" />
+              </a>
+            ) : (
+              <>
+                <img src={p.image} alt={p.title} className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100" />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent opacity-60 pointer-events-none" />
+              </>
+            )}
+          </div>
+          <div className={`p-8 flex flex-col justify-center grow ${p.featured ? "md:w-1/2" : "w-full"}`}>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/30">FEATURED</span>
+              {p.status && (
+                <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+                  p.status.type === 'live' 
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                    : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                }`}>
+                  {p.status.label}
+                </span>
+              )}
+              <span className="text-xs font-mono text-text-dim">{p.badge}</span>
+            </div>
+            <h3 className="text-2xl font-bold text-white mb-3">{p.title}</h3>
+            <p className="text-text-dim text-sm leading-relaxed mb-6">{p.desc}</p>
+            <div className="flex flex-wrap gap-2 mb-8">
+              {p.tech.map((t) => (
+                <span key={t} className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-dark-700 text-primary border border-primary/20">{t}</span>
+              ))}
+            </div>
+            <div className="flex gap-4 mt-auto">
+              {p.live && (
+                <a href={p.live} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-2.5 bg-primary/10 border border-primary/30 rounded-lg text-primary text-xs font-bold hover:bg-primary/20 transition-all">Launch App ↗</a>
+              )}
+              {p.github && (
+                <a href={p.github} target="_blank" rel="noopener noreferrer" className="px-4 py-2.5 border border-white/10 rounded-lg text-text-dim text-xs font-bold hover:border-white/30 hover:text-white transition-all">Source</a>
+              )}
+              {p.blog && (
+                <a href={p.blog} target="_blank" rel="noopener noreferrer" className="px-4 py-2.5 border border-accent/20 rounded-lg text-accent text-xs font-bold hover:bg-accent/10 transition-all">IOTA Blog ↗</a>
+              )}
+            </div>
+          </div>
         </div>
-        <div className={`p-8 flex flex-col justify-center ${p.featured ? "md:w-1/2" : "w-full"}`}>
-          <div className="flex items-center gap-3 mb-3">
-            <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/30">FEATURED</span>
-            {p.status && (
-              <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
-                p.status.type === 'live' 
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
-                  : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-              }`}>
-                {p.status.label}
-              </span>
-            )}
-            <span className="text-xs font-mono text-text-dim">{p.badge}</span>
-          </div>
-          <h3 className="text-2xl font-bold text-white mb-3">{p.title}</h3>
-          <p className="text-text-dim text-sm leading-relaxed mb-6">{p.desc}</p>
-          <div className="flex flex-wrap gap-2 mb-8">
-            {p.tech.map((t) => (
-              <span key={t} className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-dark-700 text-primary border border-primary/20">{t}</span>
-            ))}
-          </div>
-          <div className="flex gap-4 mt-auto">
-            {p.live && (
-              <a href={p.live} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-2.5 bg-primary/10 border border-primary/30 rounded-lg text-primary text-xs font-bold hover:bg-primary/20 transition-all">Launch App ↗</a>
-            )}
-            {p.github && (
-              <a href={p.github} target="_blank" rel="noopener noreferrer" className="px-4 py-2.5 border border-white/10 rounded-lg text-text-dim text-xs font-bold hover:border-white/30 hover:text-white transition-all">Source</a>
-            )}
-            {p.blog && (
-              <a href={p.blog} target="_blank" rel="noopener noreferrer" className="px-4 py-2.5 border border-accent/20 rounded-lg text-accent text-xs font-bold hover:bg-accent/10 transition-all">IOTA Blog ↗</a>
-            )}
-          </div>
-        </div>
-      </div>
+      </LaserCard>
     </div>
   );
 }
@@ -752,9 +771,10 @@ function Projects() {
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {archiveProjects.map((p, i) => (
-            <div
+            <LaserCard
               key={i}
-              className="glass-card p-6 border-white/5 hover:border-white/10 transition-all group"
+              colorType="accent"
+              className="p-6 h-full flex flex-col group"
             >
               <h4 className="font-bold text-white group-hover:text-primary transition-colors text-base">
                 {p.title}
@@ -769,7 +789,7 @@ function Projects() {
                   </span>
                 ))}
               </div>
-              <div className="flex items-center gap-3 mt-auto">
+              <div className="flex items-center gap-3 mt-auto pt-4 border-t border-white/5">
                 {p.live && (
                   <a
                     href={p.live}
@@ -791,7 +811,7 @@ function Projects() {
                   </a>
                 )}
               </div>
-            </div>
+            </LaserCard>
           ))}
         </div>
       </div>
@@ -1029,16 +1049,21 @@ function Footer() {
 
 function App() {
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <Hero />
-      <Metrics />
-      <Journey />
-      <Skills />
-      <Projects />
-      <Education />
-      <Contact />
-      <Footer />
+    <div className="min-h-screen relative">
+      <Background3D />
+      <div className="relative z-10 w-full h-full pointer-events-none">
+         <div className="pointer-events-auto">
+          <Navbar />
+          <Hero />
+          <Metrics />
+          <Journey />
+          <Skills />
+          <Projects />
+          <Education />
+          <Contact />
+          <Footer />
+        </div>
+      </div>
     </div>
   );
 }
