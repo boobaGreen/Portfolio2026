@@ -508,6 +508,10 @@ interface Project {
   image: string;
   featured: boolean;
   blog?: string;
+  status?: {
+    label: string;
+    type: 'live' | 'testnet' | 'dev';
+  };
 }
 
 const projects: Project[] = [
@@ -520,6 +524,7 @@ const projects: Project[] = [
     github: "https://github.com/boobaGreen/C-course---Salvatore-Sanfilippo",
     image: "/assets/c_course.png",
     featured: true,
+    status: { label: 'Online • Real Domain', type: 'live' },
   },
   {
     title: 'LinuxQuest 🐧',
@@ -530,6 +535,7 @@ const projects: Project[] = [
     github: 'https://github.com/boobaGreen/lpi_essential/tree/multi-course',
     image: "/assets/linuxquest.png",
     featured: true,
+    status: { label: 'Online • Real Domain', type: 'live' },
   },
   {
     title: 'GiftBlitz',
@@ -541,6 +547,7 @@ const projects: Project[] = [
     blog: 'https://blog.iota.org/build-now-masterz-hackathon/',
     image: "/assets/giftblitz.png",
     featured: true,
+    status: { label: 'Working on Testnet • Provisionary', type: 'testnet' },
   },
 ];
 
@@ -598,6 +605,15 @@ function ProjectCard({ p, i }: { p: Project, i: number }) {
         <div className={`p-8 flex flex-col justify-center ${p.featured ? "md:w-1/2" : "w-full"}`}>
           <div className="flex items-center gap-3 mb-3">
             <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/30">FEATURED</span>
+            {p.status && (
+              <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+                p.status.type === 'live' 
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                  : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+              }`}>
+                {p.status.label}
+              </span>
+            )}
             <span className="text-xs font-mono text-text-dim">{p.badge}</span>
           </div>
           <h3 className="text-2xl font-bold text-white mb-3">{p.title}</h3>
