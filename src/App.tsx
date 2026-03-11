@@ -526,7 +526,7 @@ const projects: Project[] = [
     badge: 'Multi-Cert Training Suite',
     desc: 'Comprehensive gamified platform for Linux certification mastery. Supports LPI Linux Essentials, LPIC-1 (Exams 101 & 102), LPIC-2, and RHCSA. Features interactive labs and real-world exam simulations.',
     tech: ['React', 'TypeScript', 'LPI', 'RHCSA', 'Vite'],
-    live: 'https://multicourse-gamma.vercel.app/',
+    live: 'https://linux.claudiodallara.it/',
     github: 'https://github.com/boobaGreen/lpi_essential/tree/multi-course',
     image: "/assets/linuxquest.png",
     featured: true,
