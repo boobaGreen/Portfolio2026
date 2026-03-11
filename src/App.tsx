@@ -5,11 +5,37 @@ import "./App.css";
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, []);
+
+  // Scroll-spy: track active section
+  useEffect(() => {
+    const sectionIds = ["journey", "skills", "projects", "certs", "contact"];
+    const observers: IntersectionObserver[] = [];
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(`#${id}`); },
+        { rootMargin: "-40% 0px -55% 0px" },
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   const links = [
     { label: "Journey", href: "#journey" },
@@ -20,36 +46,89 @@ function Navbar() {
   ];
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-dark-900/80 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-primary/5" : ""}`}
-    >
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a
-          href="#"
-          className="font-mono font-bold text-primary text-lg tracking-tight"
-        >
-          <span className="text-accent">$</span> claudio
-          <span className="text-text-dim">.dallara</span>
-        </a>
-        <div className="hidden md:flex items-center gap-8">
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-dark-900/80 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-primary/5" : ""}`}
+      >
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <a
+            href="#"
+            className="font-mono font-bold text-primary text-lg tracking-tight"
+          >
+            <span className="text-accent">$</span> claudio
+            <span className="text-text-dim">.dallara</span>
+          </a>
+          <div className="hidden md:flex items-center gap-8">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className={`transition-colors text-sm font-medium tracking-wide uppercase ${
+                  activeSection === l.href
+                    ? "text-primary"
+                    : "text-text-dim hover:text-primary"
+                }`}
+              >
+                {l.label}
+                {activeSection === l.href && (
+                  <span className="block h-0.5 mt-1 bg-primary rounded-full" />
+                )}
+              </a>
+            ))}
+          </div>
+          <div className="flex items-center gap-4">
+            <a
+              href="#contact"
+              className="hidden md:inline-flex px-5 py-2 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-semibold hover:bg-primary/20 hover:border-primary/50 transition-all"
+            >
+              Let's Talk
+            </a>
+            {/* Hamburger button */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="md:hidden flex flex-col gap-1.5 p-2"
+              aria-label="Toggle menu"
+            >
+              <span className={`block w-6 h-0.5 bg-primary transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+              <span className={`block w-6 h-0.5 bg-primary transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
+              <span className={`block w-6 h-0.5 bg-primary transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile overlay */}
+      <div
+        className={`fixed inset-0 z-40 bg-dark-900/60 backdrop-blur-sm transition-opacity duration-300 md:hidden ${mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        onClick={() => setMobileOpen(false)}
+      />
+      {/* Mobile drawer */}
+      <div
+        className={`fixed top-0 right-0 z-50 h-full w-72 bg-dark-800 border-l border-white/5 shadow-2xl transition-transform duration-300 md:hidden ${mobileOpen ? "translate-x-0" : "translate-x-full"}`}
+      >
+        <div className="flex flex-col pt-20 px-8 gap-6">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-text-dim hover:text-primary transition-colors text-sm font-medium tracking-wide uppercase"
+              onClick={() => setMobileOpen(false)}
+              className={`text-lg font-medium tracking-wide uppercase transition-colors ${
+                activeSection === l.href ? "text-primary" : "text-text-dim hover:text-primary"
+              }`}
             >
               {l.label}
             </a>
           ))}
+          <a
+            href="#contact"
+            onClick={() => setMobileOpen(false)}
+            className="mt-4 text-center px-5 py-3 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-semibold hover:bg-primary/20 transition-all"
+          >
+            Let's Talk
+          </a>
         </div>
-        <a
-          href="#contact"
-          className="px-5 py-2 bg-primary/10 border border-primary/30 rounded-full text-primary text-sm font-semibold hover:bg-primary/20 hover:border-primary/50 transition-all"
-        >
-          Let's Talk
-        </a>
       </div>
-    </nav>
+    </>
   );
 }
 
@@ -143,6 +222,20 @@ function TypingText({ texts }: { texts: string[] }) {
   );
 }
 
+function ScrollIndicator() {
+  const [visible, setVisible] = useState(true);
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(false), 3000);
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <div className={`absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-opacity duration-1000 ${visible ? "opacity-100 animate-bounce" : "opacity-0 pointer-events-none"}`}>
+      <span className="text-text-dim text-xs font-mono">scroll</span>
+      <div className="w-px h-8 bg-gradient-to-b from-primary/50 to-transparent" />
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -209,11 +302,7 @@ function Hero() {
           </a>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-          <span className="text-text-dim text-xs font-mono">scroll</span>
-          <div className="w-px h-8 bg-gradient-to-b from-primary/50 to-transparent" />
-        </div>
+        <ScrollIndicator />
       </div>
     </section>
   );
@@ -267,7 +356,7 @@ function Metrics() {
         <AnimatedCounter target={20} suffix="+" label="Courses Completed" />
         <AnimatedCounter target={4} label="Blockchain Ecosystems" />
         <AnimatedCounter target={15} suffix="+" label="Projects Built" />
-        <AnimatedCounter target={2021} suffix="" label="The Coding Pivot" />
+        <AnimatedCounter target={4} suffix="+" label="Years of Code" />
       </div>
     </section>
   );
@@ -329,9 +418,10 @@ function JourneyItem({ step, i }: { step: typeof journeySteps[0], i: number }) {
     <div
       ref={ref}
       className={`relative mb-12 md:mb-16 flex flex-col md:flex-row items-center gap-4 md:gap-8
-        transition-all duration-700 delay-${i * 100}
+        transition-all duration-700
         ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
         ${step.side === "right" ? "md:flex-row-reverse" : ""}`}
+      style={{ transitionDelay: `${i * 150}ms` }}
     >
       <div className={`flex-1 glass-card p-6 ${step.highlight ? "border-primary/20 shadow-lg shadow-primary/5" : ""}`}>
         <div className="flex items-center gap-3 mb-2">
@@ -453,7 +543,7 @@ function SkillCard({ cat, i }: { cat: typeof skillCategories[0], i: number }) {
   return (
     <div
       ref={ref}
-      className={`glass-card p-6 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
+      className={`glass-card ${cat.color === 'accent' ? 'glass-card-accent' : cat.color === 'purple' ? 'glass-card-purple' : ''} p-6 transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
         ${cat.highlight ? `border-primary/20 shadow-lg ${colorMap[cat.color]}` : ""}`}
       style={{ transitionDelay: `${i * 100}ms` }}
     >
@@ -463,7 +553,7 @@ function SkillCard({ cat, i }: { cat: typeof skillCategories[0], i: number }) {
           {cat.title}
         </h3>
         {cat.highlight && (
-          <span className="ml-auto text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border bg-primary/10 text-primary border-primary/30 animate-pulse">
+          <span className="ml-auto text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border bg-primary/10 text-primary border-primary/30">
             FOCUS
           </span>
         )}
@@ -666,28 +756,38 @@ function Projects() {
               key={i}
               className="glass-card p-6 border-white/5 hover:border-white/10 transition-all group"
             >
-              <h4 className="font-bold text-white group-hover:text-primary transition-colors">
+              <h4 className="font-bold text-white group-hover:text-primary transition-colors text-base">
                 {p.title}
               </h4>
-              <p className="text-text-dim text-xs mt-2 mb-4 leading-relaxed">
+              <p className="text-text-dim text-sm mt-2 mb-4 leading-relaxed">
                 {p.desc}
               </p>
-              <div className="flex items-center justify-between mt-auto">
-                <div className="flex flex-wrap gap-1.5">
-                  {p.tech.map((t) => (
-                    <span key={t} className="text-[9px] text-text-dim/60">
-                      {t}
-                    </span>
-                  ))}
-                </div>
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {p.tech.map((t) => (
+                  <span key={t} className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-dark-700 text-text-dim border border-white/10">
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <div className="flex items-center gap-3 mt-auto">
                 {p.live && (
                   <a
                     href={p.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-accent text-xs hover:underline"
+                    className="text-accent text-xs font-medium hover:underline"
                   >
-                    View ↗
+                    Live ↗
+                  </a>
+                )}
+                {p.github && (
+                  <a
+                    href={p.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-text-dim text-xs font-medium hover:text-white hover:underline"
+                  >
+                    Source
                   </a>
                 )}
               </div>

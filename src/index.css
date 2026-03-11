@@ -151,11 +151,11 @@
 .glass-card {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.03),
-    rgba(255, 255, 255, 0.01)
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.02)
   );
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   transition: all 0.3s ease;
 }
@@ -165,6 +165,23 @@
   box-shadow:
     0 0 30px var(--color-primary-dim),
     inset 0 0 30px rgba(0, 212, 255, 0.03);
+  transform: translateY(-4px);
+}
+
+/* Category-specific glow on hover */
+.glass-card-accent:hover {
+  border-color: var(--color-accent-dim);
+  box-shadow:
+    0 0 30px var(--color-accent-dim),
+    inset 0 0 30px rgba(0, 255, 136, 0.03);
+  transform: translateY(-4px);
+}
+
+.glass-card-purple:hover {
+  border-color: var(--color-purple-dim);
+  box-shadow:
+    0 0 30px var(--color-purple-dim),
+    inset 0 0 30px rgba(124, 58, 237, 0.03);
   transform: translateY(-4px);
 }
 
