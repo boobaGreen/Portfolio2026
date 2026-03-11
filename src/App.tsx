@@ -516,7 +516,7 @@ const projects: Project[] = [
     badge: "Educational Platform",
     desc: "An interactive platform to master C programming from scratch. Features an integrated editor and low-level simulations. Content by Salvatore Sanfilippo (antirez).",
     tech: ["C", "WebAssembly", "React", "TypeScript"],
-    live: "https://c-course-salvatore-sanfilippo.vercel.app/",
+    live: "https://c.claudiodallara.it/",
     github: "https://github.com/boobaGreen/C-course---Salvatore-Sanfilippo",
     image: "/assets/c_course.png",
     featured: true,
