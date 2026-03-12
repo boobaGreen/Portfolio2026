@@ -325,9 +325,9 @@ function Hero() {
         </div>
 
         <p className="mt-8 text-lg text-text-dim max-w-2xl mx-auto leading-relaxed">
-          Building <span className="text-primary font-semibold">high-performance Observability systems</span> at scale. 
-          Focused on <span className="text-accent font-semibold">Kafka, OpenTelemetry, and Cloud-Native infrastructure</span>. 
-          Alongside this, I build <span className="text-purple font-semibold">Web3 protocols and educational platforms</span> for the next generation of engineers.
+          Ensuring reliability and <span className="text-primary font-semibold">performance in Observability systems</span> at scale. 
+          Currently managing <span className="text-accent font-semibold">Kafka clusters, OpenTelemetry pipelines, and Cloud-Native infrastructure</span>. 
+          In my free time, I explore <span className="text-purple font-semibold">Web3 experiments and educational side projects</span> to keep learning and building.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -496,7 +496,7 @@ function Journey() {
       <SectionTitle
         tag="My Evolution"
         title="Engineering Transformation"
-        subtitle="Bringing years of leadership experience into the technical space to build resilient and observable systems."
+        subtitle="Bringing years of leadership experience into the technical space to manage and optimize resilient and observable systems."
       />
 
       <div className="max-w-4xl mx-auto px-6 relative">
@@ -640,7 +640,7 @@ function Skills() {
       <SectionTitle
         tag="Tech Stack"
         title="Skills & Expertise"
-        subtitle="Focused on DevOps, Observability, and Cloud — while building across the full stack."
+        subtitle="Focused on DevOps, Observability, and Cloud — while exploring and maintaining various stack components."
       />
       <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {skillCategories.map((cat, i) => (
@@ -812,7 +812,7 @@ function Projects() {
       <SectionTitle
         tag="Portfolio"
         title="Featured Projects"
-        subtitle="Core engineering projects focused on systems, infrastructure, and Web3."
+        subtitle="Personal projects and experiments focused on systems, infrastructure, and Web3."
       />
       <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
         {projects.map((p, i) => (
@@ -1048,7 +1048,7 @@ function Contact() {
           // Let's Connect
         </span>
         <h2 className="text-4xl md:text-5xl font-extrabold mt-4 bg-gradient-to-r from-primary via-white to-accent bg-clip-text text-transparent">
-          Let's Build Something Together
+          Let's Work Together
         </h2>
         <p className="text-text-dim mt-6 text-lg">
           Looking for a curious, proactive engineer who brings both technical
