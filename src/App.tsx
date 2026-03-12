@@ -326,8 +326,8 @@ function Hero() {
 
         <p className="mt-8 text-lg text-text-dim max-w-2xl mx-auto leading-relaxed">
           Ensuring reliability and <span className="text-primary font-semibold">performance in Observability systems</span> at scale. 
-          Currently managing <span className="text-accent font-semibold">Kafka clusters, OpenTelemetry pipelines, and Cloud-Native infrastructure</span>. 
-          In my free time, I explore <span className="text-purple font-semibold">Web3 experiments and educational side projects</span> to keep learning and building.
+          Currently managing <span className="text-accent font-semibold">Kafka clusters, OpenTelemetry pipelines, and OpenShift-based infrastructure</span>—leveraging <span className="text-primary font-semibold">Prometheus & Grafana</span> for deep monitoring. 
+          In my free time, I explore modest <span className="text-purple font-semibold">Web3 experiments and educational side projects</span> to keep evolving.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -441,7 +441,7 @@ const journeySteps = [
   {
     year: "2025–Now",
     title: "Agiler @ Agile Lab",
-    desc: "Junior Application Maintenance — working with Kafka, monitoring, observability, and cloud-native infrastructure.",
+    desc: "Junior Application Maintenance — managing Kafka clusters and observability stacks in OpenShift environments using Prometheus & Grafana.",
     icon: "🚀",
     side: "left" as const,
     highlight: true,
