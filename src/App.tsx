@@ -671,6 +671,17 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: "Vim Mastery: Zero to Wizard",
+    badge: "Interactive WASM Course",
+    desc: "Master Vim through a gamified, browser-based experience. Features a real Vim terminal powered by WebAssembly, a 12-lesson curriculum, and an achievements system. Fully responsive and bi-lingual.",
+    tech: ["React 19", "Vite", "vim-wasm", "Tailwind CSS v4", "Framer Motion"],
+    live: "https://vim.claudiodallara.it/",
+    github: "https://github.com/boobaGreen/vim",
+    image: "/assets/vim_project.png",
+    featured: true,
+    status: { label: 'Online • Real Domain', type: 'live' },
+  },
+  {
     title: "Impara il C sul serio",
     badge: "Educational Platform",
     desc: "An interactive platform to master C programming from scratch. Features an integrated editor and low-level simulations. Content by Salvatore Sanfilippo (antirez).",
