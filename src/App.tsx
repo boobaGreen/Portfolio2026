@@ -671,15 +671,16 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: "Vim Mastery: Zero to Wizard",
-    badge: "Interactive WASM Course",
-    desc: "Master Vim through a gamified, browser-based experience. Features a real Vim terminal powered by WebAssembly, a 12-lesson curriculum, and an achievements system. Fully responsive and bi-lingual.",
-    tech: ["React 19", "Vite", "vim-wasm", "Tailwind CSS v4", "Framer Motion"],
-    live: "https://vim.claudiodallara.it/",
-    github: "https://github.com/boobaGreen/vim",
-    image: "/assets/vim_project.png",
+    title: 'GiftBlitz',
+    badge: 'IOTA Hackathon 2026',
+    desc: 'Decentralized P2P gift card marketplace built on IOTA. Trustless protocol featuring EVM smart contracts and Game Theory-driven security. Officially featured on the IOTA Foundation blog.',
+    tech: ['IOTA', 'Solidity', 'Web3', 'Node.js'],
+    live: 'https://gift-blitz-full.vercel.app/',
+    github: 'https://github.com/boobaGreen/GiftBlitzFull',
+    blog: 'https://blog.iota.org/build-now-masterz-hackathon/',
+    image: "/assets/giftblitz.png",
     featured: true,
-    status: { label: 'Online • Real Domain', type: 'live' },
+    status: { label: 'Working on Testnet • Provisionary', type: 'testnet' },
   },
   {
     title: "Impara il C sul serio",
@@ -693,6 +694,17 @@ const projects: Project[] = [
     status: { label: 'Online • Real Domain', type: 'live' },
   },
   {
+    title: "Vim Mastery: Zero to Wizard",
+    badge: "Interactive WASM Course",
+    desc: "Master Vim through a gamified, browser-based experience. Features a real Vim terminal powered by WebAssembly, a 12-lesson curriculum, and an achievements system. Fully responsive and bi-lingual.",
+    tech: ["React 19", "Vite", "vim-wasm", "Tailwind CSS v4", "Framer Motion"],
+    live: "https://vim.claudiodallara.it/",
+    github: "https://github.com/boobaGreen/vim",
+    image: "/assets/vim_project.png",
+    featured: true,
+    status: { label: 'Online • Real Domain', type: 'live' },
+  },
+  {
     title: 'LinuxQuest 🐧',
     badge: 'Multi-Cert Training Suite',
     desc: 'Comprehensive gamified platform for Linux certification mastery. Supports LPI Linux Essentials, LPIC-1 (Exams 101 & 102), LPIC-2, and RHCSA. Features interactive labs and real-world exam simulations.',
@@ -702,18 +714,6 @@ const projects: Project[] = [
     image: "/assets/linuxquest.png",
     featured: true,
     status: { label: 'Online • Real Domain', type: 'live' },
-  },
-  {
-    title: 'GiftBlitz',
-    badge: 'IOTA Hackathon 2026',
-    desc: 'Decentralized P2P gift card marketplace built on IOTA. Trustless protocol featuring EVM smart contracts and Game Theory-driven security. Officially featured on the IOTA Foundation blog.',
-    tech: ['IOTA', 'Solidity', 'Web3', 'Node.js'],
-    live: 'https://gift-blitz-full.vercel.app/',
-    github: 'https://github.com/boobaGreen/GiftBlitzFull',
-    blog: 'https://blog.iota.org/build-now-masterz-hackathon/',
-    image: "/assets/giftblitz.png",
-    featured: true,
-    status: { label: 'Working on Testnet • Provisionary', type: 'testnet' },
   },
 ];
 
