@@ -671,7 +671,7 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: 'GiftBlitz 2',
+    title: 'GiftBlitz',
     badge: 'IOTA Hackathon 2026',
     desc: 'Decentralized P2P gift card marketplace built on IOTA. Trustless protocol featuring EVM smart contracts and Game Theory-driven security. Officially featured on the IOTA Foundation blog.',
     tech: ['IOTA', 'Solidity', 'Web3', 'Node.js'],
