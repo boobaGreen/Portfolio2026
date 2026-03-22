@@ -7,7 +7,7 @@
 ## ✅ Risposte confermate
 
 - **Lingua del sito**: Inglese
-- **GiftBlitz demo**: https://gift-blitz-full.vercel.app/ (testnet IOTA)
+- **GiftBlitz demo**: https://giftblitz.claudiodallara.it/ (testnet IOTA)
 - **Solana cert**: MasterZ x Solana Foundation, 2024
 
 ---
