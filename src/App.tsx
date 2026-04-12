@@ -671,6 +671,17 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: 'DevHarbor',
+    badge: 'DevOps Learning Platform',
+    desc: 'An interactive, production-grade learning platform for mastering Git, Docker, and Kubernetes. Features progress tracking, modular curriculums, and hands-on labs to bridge the gap between theory and real-world infrastructure.',
+    tech: ['React', 'TypeScript', 'Docker', 'Kubernetes', 'Git'],
+    live: 'https://agile.claudiodallara.it/',
+    github: 'https://github.com/boobaGreen/agileCourse',
+    image: "/assets/devharbor.png",
+    featured: true,
+    status: { label: 'Online • Real Domain', type: 'live' },
+  },
+  {
     title: 'GiftBlitz',
     badge: 'IOTA Hackathon 2026',
     desc: 'Decentralized P2P gift card marketplace built on IOTA. Trustless protocol featuring EVM smart contracts and Game Theory-driven security. Officially featured on the IOTA Foundation blog.',
