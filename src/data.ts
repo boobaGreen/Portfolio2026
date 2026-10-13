@@ -54,6 +54,14 @@ export const journeySteps = [
     side: "left" as const,
     highlight: true,
   },
+  {
+    year: "2026–Now",
+    title: "Indie Apps on Google Play",
+    desc: "Running the full Android lifecycle solo for three apps: Felis live on Google Play, FoosArena and Serenpool in closed testing. Play Console, closed-test cohorts, Play Billing, TWA and Expo builds, store listings in 5 languages, privacy and data-safety forms.",
+    icon: "📱",
+    side: "right" as const,
+    highlight: true,
+  },
 ];
 
 export const skillCategories = [
@@ -79,6 +87,22 @@ export const skillCategories = [
     icon: "📊",
     color: "accent",
     skills: ["Prometheus", "Grafana", "OpenTelemetry", "Jaeger", "Kafka"],
+    highlight: true,
+  },
+  {
+    title: "Mobile & Google Play",
+    icon: "📱",
+    color: "accent",
+    skills: [
+      "Google Play Console",
+      "Closed Testing",
+      "Play Billing",
+      "Android TWA",
+      "Expo / React Native",
+      "PWA",
+      "Supabase",
+      "Cloudflare",
+    ],
     highlight: true,
   },
   {
@@ -186,7 +210,7 @@ export const projects: Project[] = [
     status: { label: 'Beta • Android Closed Test', type: 'beta' },
   },
   {
-    title: 'DevHarbor',
+    title: 'Agile Lab · DevOps Course',
     badge: 'DevOps Learning Platform',
     desc: 'An interactive, production-grade learning platform for mastering Git, Docker, and Kubernetes. Features progress tracking, modular curriculums, and hands-on labs to bridge the gap between theory and real-world infrastructure.',
     tech: ['React', 'TypeScript', 'Docker', 'Kubernetes', 'Git'],
@@ -368,6 +392,7 @@ export const site = {
       "DevOps & Observability Engineer",
       "Full Stack Developer",
       "Indie App Maker",
+      "Google Play Publisher",
       "Web3 Builder",
       "Continuous Learner",
     ],
@@ -379,7 +404,7 @@ export const site = {
       { t: "—leveraging " },
       { t: "OpenTelemetry, Prometheus, and Grafana", c: "cyan" },
       { t: " for deep monitoring. In my free time I ship " },
-      { t: "real products, Web3 experiments and educational side projects", c: "violet" },
+      { t: "real apps on Google Play, Web3 experiments and educational side projects", c: "violet" },
       { t: " to keep evolving." },
     ],
     ctaPrimary: { label: "View My Work", href: "#projects" },
@@ -388,21 +413,21 @@ export const site = {
       label: "Latest launch",
       kicker: "Android • Google Play",
       title: "Felis: Apex Hunter",
-      text: "An ad-free hunting game for cats, built around feline vision. Shipped solo, end to end.",
+      text: "An ad-free hunting game for cats, built around feline vision. Shipped solo, end to end. Next up: FoosArena and Serenpool, now in closed beta on Android.",
       image: "/assets/felis.png",
     },
     dayJob: { label: "day job", title: "Agiler @ Agile Lab", tags: ["Kafka", "OpenShift", "Grafana", "OTel"] },
   },
   metrics: [
     { target: 20, suffix: "+", label: "Courses Completed" },
-    { target: 4, suffix: "", label: "Blockchain Ecosystems" },
+    { target: 3, suffix: "", label: "Apps on Google Play" },
     { target: 15, suffix: "+", label: "Projects Built" },
     { target: 4, suffix: "+", label: "Years of Code" },
   ],
   sections: {
     journey: { index: "01", tag: "My Evolution", title: "Engineering Transformation", subtitle: "Bringing years of leadership experience into the technical space to manage and optimize resilient and observable systems." },
     skills: { index: "02", tag: "Tech Stack", title: "Skills & Expertise", subtitle: "Focused on DevOps, Observability, and Cloud — while exploring and maintaining various stack components." },
-    projects: { index: "03", tag: "Portfolio", title: "Selected Work", subtitle: "Real products, learning platforms and experiments across systems, infrastructure and Web3.", other: "Other Projects" },
+    projects: { index: "03", tag: "Portfolio", title: "Selected Work", subtitle: "Real products on Google Play, learning platforms and experiments across systems, infrastructure and Web3.", other: "Other Projects" },
     certs: { index: "04", tag: "Lifelong Learning", title: "Courses & Ongoing Training", subtitle: "From intensive bootcamps to specialized technical modules. Currently preparing for professional Linux certifications.", inProgressTitle: "Certifications In Progress", inProgress: ["LPI Linux Essentials", "LPIC-1 (101 & 102)"] },
   },
   contact: {
