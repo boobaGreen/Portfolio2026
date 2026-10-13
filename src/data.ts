@@ -250,13 +250,6 @@ export const projects: Project[] = [
 
 export const archiveProjects = [
   {
-    title: 'RoughLogic',
-    desc: 'Personal dev lab and technical blog concept. Exploring complex logic and modular architecture.',
-    tech: ['React', 'Node.js', 'Vercel'],
-    live: 'https://www.roughlogic.eu/',
-    github: 'https://github.com/boobaGreen/RoughLogic',
-  },
-  {
     title: 'ICP Randomizer',
     desc: 'TypeScript studio project built for the ICP Master Class. Exploring decentralized compute with Azle.',
     tech: ['ICP', 'TypeScript', 'Azle'],
