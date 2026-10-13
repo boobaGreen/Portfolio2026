@@ -143,7 +143,7 @@ export interface Project {
   highlights?: string[];
   status?: {
     label: string;
-    type: 'live' | 'testnet' | 'dev';
+    type: 'live' | 'testnet' | 'dev' | 'beta';
   };
 }
 
@@ -160,6 +160,30 @@ export const projects: Project[] = [
     featured: true,
     highlights: ['Live on Google Play', 'No ads, no accounts', 'One-time purchase'],
     status: { label: 'Live • Google Play', type: 'live' },
+  },
+  {
+    title: 'FoosArena',
+    badge: 'Mobile App • Closed Beta',
+    desc: '2-vs-2 table football (foosball) in bars: find a table nearby, complete your team, log goals as you play and climb the rankings. Free for players and bars, in 5 languages. Mobile app (Expo + React Native) on Supabase, landing on Cloudflare. Currently in closed testing on Android.',
+    tech: ['React Native', 'Expo', 'TypeScript', 'Supabase', 'Cloudflare'],
+    category: 'product',
+    live: 'https://www.foosarena.eu/',
+    image: "/assets/foosarena.png",
+    featured: true,
+    highlights: ['Android closed beta', 'Free for players and bars', '5 languages'],
+    status: { label: 'Beta • Android Closed Test', type: 'beta' },
+  },
+  {
+    title: 'Serenpool',
+    badge: 'PWA + Android • Closed Beta',
+    desc: 'Pool maintenance app for Italian and European owners: doses computed from real products, a daily plan, SOS procedures, in 5 languages. No ads, no accounts, all data stays on the phone. One-time Pro via Google Play Billing. Currently in closed testing on Android.',
+    tech: ['React 19', 'TypeScript', 'Vite', 'PWA', 'Tailwind CSS', 'Google Play Billing'],
+    category: 'product',
+    live: 'https://serenpool.com/',
+    image: "/assets/serenpool.png",
+    featured: true,
+    highlights: ['Android closed beta', 'No ads, no accounts', 'One-time Pro'],
+    status: { label: 'Beta • Android Closed Test', type: 'beta' },
   },
   {
     title: 'DevHarbor',
@@ -231,13 +255,6 @@ export const archiveProjects = [
     tech: ['React', 'Node.js', 'Vercel'],
     live: 'https://www.roughlogic.eu/',
     github: 'https://github.com/boobaGreen/RoughLogic',
-  },
-  {
-    title: 'FoosArena',
-    desc: 'Platform for foosball (Calcio Balilla) tournament management and player rankings.',
-    tech: ['React', 'Firebase', 'Tailwind'],
-    live: 'https://www.foosarena.eu/',
-    github: 'https://github.com/boobaGreen/calcio_balilla',
   },
   {
     title: 'ICP Randomizer',
