@@ -792,7 +792,7 @@ function ProjectPanel({ p, i, horizontal = false }: { p: Project; i: number; hor
   return (
     <article
       className={`group relative rounded-[2rem] overflow-hidden border border-white/10 bg-ink-2 ${
-        horizontal ? "grid grid-cols-[1.1fr_1fr] min-h-[68vh]" : "flex flex-col"
+        horizontal ? "grid grid-cols-[1.1fr_1fr] h-full min-h-[68vh]" : "flex flex-col"
       }`}
     >
       <a href={href} target="_blank" rel="noopener noreferrer" className={`relative block overflow-hidden ${horizontal ? "h-full min-h-[340px]" : "aspect-[16/10]"}`}>
@@ -817,13 +817,13 @@ function ProjectPanel({ p, i, horizontal = false }: { p: Project; i: number; hor
           </span>
         )}
       </a>
-      <div className="flex flex-col p-7 md:p-10">
+      <div className={`flex flex-col p-7 md:p-10 ${horizontal ? "[@media(max-height:820px)]:md:p-8" : ""}`}>
         <div className="flex items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.2em]">
           <span className="text-lime">{p.badge}</span>
           <span className="text-mute">{catLabel[p.category]}</span>
         </div>
-        <h3 className="mt-4 font-display text-3xl md:text-5xl font-bold text-paper tracking-tight leading-none">{p.title}</h3>
-        <p className="mt-5 text-mute leading-relaxed">{p.desc}</p>
+        <h3 className={`mt-4 font-display text-3xl md:text-5xl font-bold text-paper tracking-tight leading-none ${horizontal ? "[@media(max-height:820px)]:md:text-4xl" : ""}`}>{p.title}</h3>
+        <p className={`mt-5 text-mute leading-relaxed ${horizontal ? "[@media(max-height:820px)]:text-sm" : ""}`}>{p.desc}</p>
         {p.highlights && (
           <ul className="mt-5 flex flex-wrap gap-2">
             {p.highlights.map((hl) => (
