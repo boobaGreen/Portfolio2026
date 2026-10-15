@@ -210,6 +210,18 @@ export const projects: Project[] = [
     status: { label: 'Beta • Android Closed Test', type: 'beta' },
   },
   {
+    title: 'Group Traslochi Smart360°',
+    badge: 'Client Work • Moving Company',
+    desc: 'Full website for a moving company in Romagna, rebuilt as a fast single static page: scroll-driven animations, free-quote form, one-tap WhatsApp and phone contact, local SEO for Cesena, Forlì, Ravenna, Rimini and Bologna. Design, implementation, cookie compliance, deployment and domain management.',
+    tech: ['HTML', 'CSS', 'JavaScript', 'Local SEO', 'Vercel'],
+    category: 'product',
+    live: 'https://www.grouptraslochismart360.it/',
+    image: "/assets/smart360.jpg",
+    featured: true,
+    highlights: ['Real client', 'Static, no build', 'Quote form + WhatsApp'],
+    status: { label: 'Online • Client Work', type: 'live' },
+  },
+  {
     title: 'Agile Lab · DevOps Course',
     badge: 'DevOps Learning Platform',
     desc: 'An interactive, production-grade learning platform for mastering Git, Docker, and Kubernetes. Features progress tracking, modular curriculums, and hands-on labs to bridge the gap between theory and real-world infrastructure.',
