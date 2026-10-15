@@ -210,9 +210,9 @@ export const projects: Project[] = [
     status: { label: 'Beta • Android Closed Test', type: 'beta' },
   },
   {
-    title: 'Group Traslochi Smart360°',
+    title: 'Smart360°',
     badge: 'Client Work • Moving Company',
-    desc: 'Full website for a moving company in Romagna, rebuilt as a fast single static page: scroll-driven animations, free-quote form, one-tap WhatsApp and phone contact, local SEO for Cesena, Forlì, Ravenna, Rimini and Bologna. Design, implementation, cookie compliance, deployment and domain management.',
+    desc: 'Website for GroupTraslochiSmart360°, a moving company in Romagna. A fast single static page with scroll-driven animations, free-quote form, WhatsApp contact and local SEO. Design, build, deploy and domain management.',
     tech: ['HTML', 'CSS', 'JavaScript', 'Local SEO', 'Vercel'],
     category: 'product',
     live: 'https://www.grouptraslochismart360.it/',
