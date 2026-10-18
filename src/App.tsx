@@ -94,7 +94,7 @@ function SplitWords({ text }: { text: string }) {
   return (
     <motion.span aria-label={text} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }}>
       {text.split(" ").map((w, i) => (
-        <span key={i} aria-hidden className="inline-flex overflow-hidden mr-[0.25em] pb-[0.08em]">
+        <span key={i} aria-hidden className="inline-flex max-w-full overflow-hidden mr-[0.25em] pb-[0.08em] last:mr-0">
           <motion.span className="inline-block" variants={wordVariants} custom={i}>
             {w}
           </motion.span>
@@ -635,7 +635,7 @@ function SectionHead({ index, tag, title, subtitle }: { index: string; tag: stri
           <span>{tag}</span>
         </div>
       </Reveal>
-      <h2 className="mt-6 font-display font-bold text-5xl md:text-7xl lg:text-8xl tracking-[-0.035em] leading-[0.95] text-paper">
+      <h2 className="mt-6 font-display font-bold text-4xl min-[480px]:text-5xl md:text-7xl lg:text-8xl tracking-[-0.035em] leading-[0.95] text-paper">
         <SplitWords text={title} />
       </h2>
       {subtitle && (
